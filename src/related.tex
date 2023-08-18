@@ -1,0 +1,41 @@
+\section{Related work}
+Automated software packages for Bayesian inference have revolutionized Bayesian data 
+analysis in the past two decades, and are now a core part of a typical applied statistics 
+workflow. For example, packages such as BUGS 
+\cite{lunn2013bugs, lunn2009bugs, lunn2000winbugs}, 
+JAGS \cite{hornik2003jags}, Stan \cite{carpenter2017stan}, PyMC3 
+\cite{salvatier2016probabilistic}, and Turing.jl \cite{ge2018turing} have been widely used in 
+many scientific applications.
+
+\medskip 
+These software packages often provide two key user-facing components: (1) a 
+probabilistic programming language (PPL), which allows users to specify Bayesian 
+statistical models in code with a familiar, mathematics-like syntax; and (2) an 
+inference engine, which is responsible for performing computational Bayesian
+inference once the model and data have been specified. 
+Pigeons.jl focuses on the development 
+of a new inference engine that employs distributed, high-performance computing.
+
+\medskip
+Inference engines available in existing software packages are varied in their 
+capabilities and limitations. For instance, the widely-used Stan inference engine 
+is only capable of handling real-valued (i.e., continuous) parameters. 
+Other tools, such as JAGS, are capable of handling discrete-valued parameters but 
+are limited in their capability to handle custom data-types 
+(e.g. phylogenetic trees). 
+Of those that have the capability to model arbitrary data types, 
+none have an automatically distributed implementation to our knowledge.
+Turing.jl \cite{ge2018turing} offers another popular inference engine and PPL, 
+however Pigeons.jl allows one to interface with several different PPLs as well as 
+to easily perform distributed computation.
+
+\medskip
+There is also a vast literature on distributed and parallel 
+Bayesian inference algorithms 
+\cite{bardenet2017markov, brockwell2006parallel, calderhead2014general,
+jacob2020unbiased, jacob2011using, lee2010utility, scott2016bayes, 
+wang2015parallelizing, wu2017average, zhu2017big}.
+These methods unfortunately do not lead to widely 
+usable software packages because they either introduce unknown amounts of 
+approximation error, involve significant communication cost, or reduce the 
+generality of Bayesian inference. 

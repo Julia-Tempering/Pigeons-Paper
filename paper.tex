@@ -1,0 +1,70 @@
+% JuliaCon proceedings template
+\documentclass{juliacon}
+\setcounter{page}{1}
+
+\usepackage[autonum, blackhypersetup]{shortex}
+\usepackage{xcolor}
+\usepackage[font=scriptsize]{subcaption}
+\usepackage{forest}
+
+\newcommand{\NS}[1]{\textcolor{red}{#1}}
+\def\bfx{\mathbf{x}}
+\def\bfX{\mathbf{X}}
+
+\definecolor{julia1}{rgb}{0, 0.60, 0.98}
+\definecolor{julia2}{rgb}{0.89, 0.43, 0.28}
+\definecolor{julia3}{rgb}{0.24, 0.64, 0.30}
+\definecolor{julia4}{rgb}{0.76, 0.44, 0.82}
+\definecolor{julia5}{rgb}{0.67, 0.55, 0.09}
+\definecolor{julia6}{HTML}{00aaae}
+\definecolor{julia7}{HTML}{ed5e93}
+\definecolor{julia8}{HTML}{c68225}
+
+\begin{document}
+
+\input{header}
+
+\maketitle
+
+\begin{abstract}
+
+We introduce a software package, Pigeons.jl, that provides a way to leverage distributed computation to 
+obtain samples from complicated probability distributions, such as 
+multimodal posteriors arising in Bayesian inference and high-dimensional 
+distributions in statistical mechanics. Pigeons.jl provides simple APIs to 
+perform such computations single-threaded, multi-threaded,
+and/or distributed over thousands of MPI-communicating machines.
+In addition, Pigeons.jl guarantees a property that we call strong parallelism invariance: the 
+output for a given seed is identical irrespective of the number of threads and processes, 
+which is crucial for scientific reproducibility and software validation. 
+We describe the key features of Pigeons.jl and the approach taken to implement 
+a distributed and randomized algorithm that satisfies strong parallelism invariance.
+
+\end{abstract}
+
+\input{src/introduction.tex}
+\input{src/examples.tex}
+\input{src/PT.tex}
+\input{src/SPI.tex}
+\input{src/related.tex}
+% \input{src/benchmarks.tex}
+\input{src/conclusion.tex}
+
+\section{Acknowledgements}
+NS acknowledges the support of a Vanier Canada Graduate Scholarship. 
+PT acknowledges the support of the Black Hole Initiative at Harvard University, 
+which is funded by grants from the John Templeton Foundation and the 
+Gordon and Betty Moore Foundation to Harvard University, 
+as well as support by the National Science Foundation grants AST-1935980 
+and AST-2034306 and the Gordon and Betty Moore Foundation (GBMF-10423).
+SS acknowledges the support of EPSRC grant EP/R034710/1 CoSines.
+ABC and TC acknowledge the support of an NSERC Discovery Grant.
+We also acknowledge use of the ARC Sockeye computing platform from the
+University of British Columbia, as well as cloud computing resources provided 
+by Oracle.
+
+\input{bib.tex}
+
+\end{document}
+
+% Inspired by the International Journal of Computer Applications template

@@ -1,0 +1,31 @@
+title: "Pigeons.jl: Distributed sampling from intractable distributions"
+keywords:
+  - distributed computation
+  - Bayesian inference
+  - parallelism invariance
+  - multi-threading
+  - Message Passing Interface 
+  - Markov chain Monte Carlo
+authors:
+
+  - name: Nikola Surjanovic 
+    affiliation: 1
+  - name: Miguel Biron-Lattes 
+    affiliation: 1
+  - name: Paul Tiede 
+    affiliation: 2
+  - name: Saifuddin Syed 
+    affiliation: 3
+  - name: Trevor Campbell
+    affiliation: 1
+  - name: Alexandre Bouchard-Côté
+    affiliation: 1
+affiliations:
+  - name: University of British Columbia
+    index: 1
+  - name: Harvard University
+    index: 2
+  - name: University of Oxford 
+    index: 3
+date: August 18, 2023
+bibliography: ref.bib
