@@ -69,7 +69,7 @@ A possible reduction tree for two machines is illustrated in \cref{fig:reduction
 \medskip 
 To avoid the issue of non-associativity of 
 floating point arithmetic, we ensure that the order in which operations are performed 
-are exactly the same, irrespective of the number of processes/machines and threads. 
+is exactly the same, irrespective of the number of processes/machines and threads. 
 This is achieved by making sure that every value to be added---if addition is our 
 reduction operation---is a leaf node in the reduction tree, irrespective of the 
 number of machines available to perform the reduction. 
@@ -235,7 +235,7 @@ used for each unit of work, hopefully implying strong parallelism invariance
 if the number of tasks is assumed to be constant. 
 Unfortunately, this is not the case when a separate task is created for each thread 
 of execution in Julia.
-We note that the \texttt{@threads} macro in Julia creates exactly \texttt{nthreads()}
+We note that the \texttt{@threads} macro in Julia creates \texttt{nthreads()}
 tasks and thus \texttt{nthreads()} pseudorandom number generators.
 This can break strong parallelism invariance as the output may depend on the number of 
 threads.

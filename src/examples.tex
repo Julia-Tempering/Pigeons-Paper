@@ -19,7 +19,8 @@ languages, including:
 \begin{itemize}
     \item Turing.jl \cite{ge2018turing} models (\texttt{TuringLogPotential})
     \item Stan \cite{carpenter2017stan} models (\texttt{StanLogPotential})
-    \item Comrade.jl models for black hole imaging (\texttt{ComradeLogPotential})
+    \item Comrade.jl\footnote{\url{https://github.com/ptiede/Comrade.jl}} 
+      models for black hole imaging (\texttt{ComradeLogPotential})
     \item Non-Julian models with foreign-language Markov chain Monte Carlo (MCMC) code 
     (e.g. Blang \cite{bouchard2022blang} code for phylogenetic inference over combinatorial spaces) 
 \end{itemize}
@@ -101,7 +102,7 @@ We also specify that we would like to store
 the obtained samples in memory to be able to produce trace-plots, as well 
 as some basic online summary statistics of the target distribution and useful 
 diagnostic output by specifying 
-\texttt{record = [traces, online, round\_trip, Pigeons.timing\_extrema, Pigeons.jl.allocation\_extrema]}.
+\texttt{record = [traces, online, round\_trip, Pigeons.timing\_extrema, Pigeons.allocation\_extrema]}.
 It is also possible to leave the \texttt{record} argument empty and reasonable defaults 
 will be selected for the user.
 The code below runs Pigeons.jl on one machine with one thread.
@@ -202,7 +203,8 @@ tuning parameters. Other outputs include:
     allocations (in bytes) used in each round.
 
     \item \texttt{$\log(Z_1/Z_0)$}: an estimate of the 
-    log of the normalization constant. See \cref{sec:PT_diagnostics} for more information. 
+    logarithm of the ratio of normalization constants between the target and the reference. 
+    In many cases, $Z_0 = 1$.
 
     \item \texttt{min($\alpha$)} and \texttt{mean($\alpha$)}: minimum and average swap 
     acceptance rates during the communication phase across the PT chains.
