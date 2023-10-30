@@ -1,0 +1,112 @@
+\section{Introduction}
+In many scientific application domains, the ability to obtain samples from a 
+distribution is crucial. 
+For instance, sampling methods have been used to discover magnetic polarization 
+in the black hole of galaxy M87 \cite{akiyama2021seven}
+and to image the Sagittarius A* black hole \cite{akiyama2022first}.
+They have also been used to 
+model the evolution of single-cell cancer genomes \cite{salehi2021clonal}, 
+infer plasma dynamics inside nuclear fusion reactors \cite{gota2021overview}, 
+and to identify gerrymandering in Georgia's 2021 congressional districting plan 
+\cite{zhao2022mathematically}.
+Similarly, evaluating high-dimensional integrals or sums over complicated 
+combinatorial spaces are related tasks that can also be solved with sampling 
+via Markov chain Monte Carlo (MCMC) methods. 
+However, such calculations can often be bottlenecks in the scientific process, with 
+simulations that can last days or even weeks to finish. 
+
+\medskip
+Pigeons.jl\footnote{The source code for Pigeons.jl can be found at 
+\url{https://github.com/Julia-Tempering/Pigeons.jl}. 
+Pigeons.jl v0.2.0, used in the example scripts below, is currently compatible with Julia 1.8+.}
+enables users to sample efficiently from high-dimensional and complex distributions 
+and solve integration problems by 
+implementing state-of-the-art sampling algorithms \cite{syed2021nrpt,surjanovic2022vpt} 
+that leverage distributed computation. Its simple API allows users to perform such computations 
+single-threaded, multi-threaded, and/or distributed over thousands of MPI-communicating 
+machines. Further, it comes with guarantees on strong parallelism invariance wherein 
+the output for a given seed is \emph{identical} irrespective 
+of the number of threads or processes. 
+Such a level of reproducibility is rare in distributed software but of 
+great use for the purposes of debugging in the context of sampling algorithms, 
+which produce stochastic output.
+Specifically, Pigeons.jl is designed to be suitable and yield reproducible output for:
+\begin{enumerate}
+    \item one machine running on one thread;
+    \item one machine running on several threads;
+    \item several machines running, each using one thread, and
+    \item several machines running, each using several threads.
+\end{enumerate}
+
+
+\subsection{Problem formulation}
+We describe the class of problems that can be approached using Pigeons.jl.
+Let $\pi(x)$ denote a probability density
+\footnote{This density may also be a probability mass function 
+(discrete variables). We also allow for a combination of discrete/continuous variables.} 
+called the \emph{target}. 
+In many problems, e.g. in Bayesian statistics, the density $\pi$ is typically 
+known only up to a normalizing constant, 
+\[
+\label{eq:normalizing_constant}
+  \pi(x) = \frac{\gamma(x)}{Z}, \qquad Z = \int \gamma(x) \, \dee x,
+\]  
+where $\gamma$ can be evaluated pointwise but $Z$ is typically unknown.
+Pigeons.jl takes as input the function $\gamma$.
+
+\medskip 
+The output of Pigeons.jl can be used for two main tasks:
+\begin{enumerate}
+    \item Approximating integrals of the form $\int f(x) \pi(x) \, \dee x$.  
+    For example, the choice $f(x) = x$ computes the mean and 
+    $f(x) = I[x \in A]$ computes the probability of $A$ under $\pi$,
+    where $I[\cdot]$ denotes the indicator function.
+
+    \item Approximating the value of the normalization constant $Z$. For 
+    example, in Bayesian statistics, this corresponds to the 
+    marginal likelihood, which can be used for model selection. 
+\end{enumerate}
+Its implementation shines compared to traditional sampling packages in the 
+following scenarios:
+\begin{itemize}
+    \item When the target density $\pi$ is challenging due to a complex structure 
+    (e.g., high-dimensional, multi-modal, etc.).
+    
+    \item When the user needs not only $\int f(x) \pi(x) \, \dee x$ but also
+    the normalization constant $Z$. 
+    Many existing tools focus on the former and struggle or fail to do the latter. 
+    
+    \item When the target distribution $\pi$ is defined over a non-standard space, 
+    e.g. a combinatorial object such as a phylogenetic tree.  
+\end{itemize}
+
+
+\subsection{What is of interest to the general Julia developer?}
+Ensuring code correctness at the intersection of randomized, parallel, and 
+distributed algorithms is a challenge. To address this challenge, we designed Pigeons.jl 
+based on a principle that we refer to as \textit{strong parallelism invariance}
+(SPI).
+Namely, the output of Pigeons.jl is completely invariant to the number of machines 
+and/or threads.
+Without explicitly keeping SPI in mind during software construction, 
+the (random) output of the algorithm is only guaranteed to have the same distribution.
+This is a much weaker guarantee that, in particular, makes debugging difficult.
+However, with our notion of SPI we make debugging and 
+software validation considerably easier. This is because the developer can 
+first focus on the fully serial randomized algorithm, and then use it as an 
+easy-to-compare gold-standard reference for parallel/distributed implementations. 
+This strategy is used extensively in Pigeons.jl to ensure correctness. In contrast, 
+testing equality in distribution, while possible (e.g., see \cite{geweke2004getting}), 
+incurs additional false negatives due to statistical error.
+
+\medskip 
+The general Julia developer will be interested in: 
+\begin{itemize}
+    \item The main causes of a violation of strong parallelism invariance that we have identified 
+    (\cref{sec:PI_causes})---some of which are specific to Julia---and how we address 
+    them in Pigeons.jl.
+
+    \item The SplittableRandoms.jl\footnote{\url{https://github.com/Julia-Tempering/SplittableRandoms.jl}}
+    package that was developed by our team 
+    to achieve strong parallelism invariance in Pigeons.jl (\cref{sec:splittable_randoms}).
+\end{itemize}
