@@ -5,7 +5,7 @@
 \usepackage[autonum, blackhypersetup]{shortex}
 \usepackage{xcolor}
 %\let\subcaption\undefined % overwrite 'subcaption' from the style file
-\usepackage[font=scriptsize]{subcaption}
+%\usepackage[font=scriptsize]{subcaption}
 \usepackage{forest}
 
 \newcommand{\NS}[1]{\textcolor{red}{#1}}
@@ -21,7 +21,7 @@
 \definecolor{julia7}{HTML}{ed5e93}
 \definecolor{julia8}{HTML}{c68225}
 
-\pdfsuppresswarningpagegroup=1
+\pdfsuppresswarningpagegroup=1 % avoid warning due to pdfs made with photoshop
 
 \begin{document}
 
@@ -45,12 +45,12 @@ a distributed and randomized algorithm that satisfies strong parallelism invaria
 
 \end{abstract}
 
-\input{src/introduction.tex}
-\input{src/examples.tex}
-\input{src/PT.tex}
-\input{src/SPI.tex}
-\input{src/related.tex}
-\input{src/conclusion.tex}
+\input{introduction.tex}
+\input{examples.tex}
+\input{PT.tex}
+\input{SPI.tex}
+\input{related.tex}
+\input{conclusion.tex}
 
 \section{Acknowledgements}
 NS acknowledges the support of a Vanier Canada Graduate Scholarship. 

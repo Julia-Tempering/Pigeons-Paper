@@ -59,7 +59,7 @@ Bayesian statistics.
 
 \begin{figure}[t]
     \centering 
-    \includegraphics[width=0.5\textwidth]{img/coinflip_posterior.pdf}
+    \includegraphics[width=0.5\textwidth]{../img/coinflip_posterior.pdf}
     \caption{Posterior distribution for the model given by \cref{eq:coinflip} 
     with $n=100,000$ coin flips and $y=50,000$ observed heads, 
     estimated using $2^{17}$ samples from Pigeons.jl. 
@@ -246,14 +246,14 @@ panel of the same figure.
 
 \begin{figure*}[t]
     \centering
-    \begin{subfigure}{0.45\textwidth}
+    \begin{minipage}{0.45\textwidth}
       \centering
-      \includegraphics[width=\textwidth]{img/trace_density_plots_pt.pdf}
-    \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{../img/trace_density_plots_pt.pdf}
+    \end{minipage}
+    \begin{minipage}{0.45\textwidth}
       \centering
-      \includegraphics[width=\textwidth]{img/trace_density_plots_single_chain.pdf}
-    \end{subfigure}
+      \includegraphics[width=\textwidth]{../img/trace_density_plots_single_chain.pdf}
+    \end{minipage}
     \caption{
         Trace-plots for the first parameter, $p_1$, in the 
         non-identifiable coinflip Turing model.
