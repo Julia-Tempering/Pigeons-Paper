@@ -4,3 +4,4 @@ sub build_header {
 }
 
 build_header()
+system("cat ./paper.log")
