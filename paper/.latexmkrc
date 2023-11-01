@@ -1,3 +1,7 @@
+$pdflatex = "! pdflatex -halt-on-error %O %S | grep -A3 '^!'";
+$pdf_mode = 1;
+$postscript_mode = 0;
+$dvi_mode = 0;
 
 sub build_header {
   system("ruby ./prep.rb")
