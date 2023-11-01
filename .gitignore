@@ -5,7 +5,7 @@ paper.fdb_latexmk
 paper.fls
 paper.log
 paper.out
-paper.pdf
+*.pdf
 paper.synctex.gz
 /results
 pdflatex(.*)
