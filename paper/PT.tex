@@ -304,3 +304,51 @@ with the updated permutation.
   \caption{Distributed PT on machine $j$ (one replica per machine)}
   \label{alg:distributed_PT}
 \end{algorithm}
+
+
+\subsection{Strong and weak scaling of PT}
+
+We study the strong and weak scaling properties of Pigeons' implementation of PT
+as given by Amdahl's law and Gustafson's law, respectively.
+For the strong scaling results, we consider a fixed problem size and compare the 
+compute time as we vary the number of processes.  
+For weak scaling, we consider a varying problem size proportional 
+to the number of processes used. 
+In both cases we use the number of chains as the definition of the problem size; 
+this is in line with previous heuristics that establish that the generaly problem 
+difficulty is proportional to the optimal number of chains in PT \cite{syed2021nrpt}.
+
+\medskip
+We emphasize again that Pigeons supports both shared memory 
+parallelism (SMP) and distributed memory parallelism (DMP). However, in certain cases, it 
+might be useful to run parallel tempering with very many chains or 
+to run several instances of parallel tempering at once. In such cases, 
+the DMP setup is the most natural. Our implementation in Pigeons ensures that the 
+communication cost in this setup is minimal. In most cases, the 
+communication cost is negligible compared to other computations performed on each process. 
+
+\medskip
+The results for strong and weak scaling are presented in \cref{fig:PT_scaling}. 
+For strong scaling, we see that ...
+For weak scaling, We see that ...
+\NS{Comment on plots}.
+
+\begin{figure*}[t]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{../img/trace_density_plots_pt.pdf}
+    \end{minipage}
+    \begin{minipage}{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{../img/trace_density_plots_single_chain.pdf}
+    \end{minipage}
+    \caption{
+        \NS{Add appropriate plots.}
+        Strong and weak scaling results for PT.  
+        \textbf{Left:} Strong scaling. 
+        \textbf{Right:} Weak scaling. 
+    }
+    \label{fig:PT_scaling}
+\end{figure*}
+

@@ -24,7 +24,7 @@ and solve integration problems by
 implementing state-of-the-art sampling algorithms \cite{syed2021nrpt,surjanovic2022vpt} 
 that leverage distributed computation. Its simple API allows users to perform such computations 
 single-threaded, multi-threaded, and/or distributed over thousands of MPI-communicating 
-machines. Further, it comes with guarantees on strong parallelism invariance wherein 
+machines (as tested on local compute clusters). Further, it comes with guarantees on strong parallelism invariance wherein 
 the output for a given seed is \emph{identical} irrespective 
 of the number of threads or processes. 
 Such a level of reproducibility is rare in distributed software but of 
