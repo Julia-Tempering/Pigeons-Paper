@@ -306,17 +306,24 @@ with the updated permutation.
 \end{algorithm}
 
 
-\subsection{Strong and weak scaling of PT}
+\subsection{Weak scaling of PT}
 
-We study the strong and weak scaling properties of Pigeons' implementation of PT
-as given by Amdahl's law and Gustafson's law, respectively.
-For the strong scaling results, we consider a fixed problem size and compare the 
-compute time as we vary the number of processes.  
-For weak scaling, we consider a varying problem size proportional 
-to the number of processes used. 
-In both cases we use the number of chains as the definition of the problem size; 
-this is in line with previous heuristics that establish that the generaly problem 
-difficulty is proportional to the optimal number of chains in PT \cite{syed2021nrpt}.
+We study the weak scaling properties of Pigeons' implementation of PT
+as given by Gustafson's law.
+In this setup, we consider a varying problem size proportional to the number of processes used. 
+The number of chains is our definition of the problem size; 
+this is in line with previous heuristics that establish that the problem 
+difficulty is generally proportional to the optimal number of chains in PT \cite{syed2021nrpt}.
+In particular, we consider a multivariate normal target distribution 
+and vary the dimension $d \in \cbra{2^1, 2^2, \ldots, 2^{12}}$ for the distributed setup and 
+$d \in \cbra{2^1, 2^2, \ldots, 2^{10}}$ for the parallel (shared memory) setup. 
+The number of chains is set to $\ceil{\sqrt{d}}$ according to PT tuning suggestions \cite{syed2021nrpt} 
+and for the distributed and parallel settings we set the number of processes or threads equal 
+to the number of chains.
+Within each chain we use the autoMALA sampler \cite{biron2024automala}, which is a 
+gradient-based sampler with automatic step size selection in the Metropolis-adjusted Langevin algorithm.
+Ten different seeds are used in order to obtain approximate 95\% confidence intervals of 
+the speedup.
 
 \medskip
 We emphasize again that Pigeons supports both shared memory 
@@ -328,26 +335,27 @@ communication cost in this setup is minimal. In most cases, the
 communication cost is negligible compared to other computations performed on each process. 
 
 \medskip
-The results for strong and weak scaling are presented in \cref{fig:PT_scaling}. 
-For strong scaling, we see that ...
-For weak scaling, We see that ...
-\NS{Comment on plots}.
+The weak scaling results for both the DMP and SMP settings are presented in \cref{fig:PT_scaling}. 
+We see that we obtain an approximately linear speedup as we increase the number of processes. 
 
 \begin{figure*}[t]
     \centering
-    \begin{minipage}{0.45\textwidth}
+    \begin{minipage}{0.4\textwidth}
       \centering
-      \includegraphics[width=\textwidth]{../img/trace_density_plots_pt.pdf}
+      \includegraphics[width=\textwidth]{../img/speedup_distributed.pdf}
     \end{minipage}
-    \begin{minipage}{0.45\textwidth}
+    \begin{minipage}{0.4\textwidth}
       \centering
-      \includegraphics[width=\textwidth]{../img/trace_density_plots_single_chain.pdf}
+      \includegraphics[width=\textwidth]{../img/speedup_parallel.pdf}
     \end{minipage}
     \caption{
-        \NS{Add appropriate plots.}
-        Strong and weak scaling results for PT.  
-        \textbf{Left:} Strong scaling. 
-        \textbf{Right:} Weak scaling. 
+        Weak scaling results for PT in both the distributed (MPI) and parallel settings 
+        with approximate 95\% confidence intervals for the speedup.  
+        The blue dotted line represents a hypothetical speedup equal to the 
+        number of processes/threads requested. 
+        The red dashed line indicates a speedup of one for reference.
+        \textbf{Left:} Distributed setup. 
+        \textbf{Right:} Parallel (shared) setup. 
     }
     \label{fig:PT_scaling}
 \end{figure*}

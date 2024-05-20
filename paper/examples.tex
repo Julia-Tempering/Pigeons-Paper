@@ -1,9 +1,9 @@
 \section{Examples}
 In this section we present a set of minimal examples 
 that demonstrate how to use Pigeons.jl for sampling. 
-For further reading, we also direct readers to our growing list of examples, which can be found at 
-\url{https://github.com/Julia-Tempering/Pigeons.jl/tree/main/examples}.
-\NS{Add InferenceHub description and link.}
+We also direct readers to our growing list of examples at InferHub 
+(\url{https://julia-tempering.github.io/InferHub/}), which hosts a growing collection of posterior 
+distributions with an emphasis on difficult (non-log-concave) problems.
 
 \medskip
 We begin by installing the latest official release of Pigeons.jl: 
@@ -97,7 +97,8 @@ model = coinflip(100000, 50000)
 
 From here, it is straightforward to sample from the density given by 
 \cref{eq:coinflip_density} up to a normalizing constant.
-We use non-reversible parallel tempering \cite{syed2021nrpt} (PT), Pigeons.jl's 
+We use non-reversible parallel tempering \NS{add newest ergodicity cite?} 
+\cite{syed2021nrpt,syed2021paths,surjanovic2022vpt} (PT), Pigeons.jl's 
 state-of-the-art sampling algorithm, to sample from the target distribution.
 PT comes with several tuning parameters and \cite{syed2021nrpt} describe how 
 to select these parameters effectively, which Pigeons.jl implements under the hood.
