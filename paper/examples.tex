@@ -308,8 +308,11 @@ for $n=100,000$ and $y=50,000$, we can exactly obtain its value as $\log(Z) \app
 using a computer algebra system. Note that this is very close to the output provided in 
 \cref{fig:standard_out}.
 
+
 \subsubsection{Online statistics}
 \label{sec:online_stats}
+Pigeons has facilities to support cases requiring large memory. For instance, we
+allow for the computation of online statistics, as well as off-memory sample storage.
 Having specified the use of the \texttt{online} recorder in our call to \texttt{pigeons()}, 
 we can output some basic summary statistics of the marginals of our target distribution. 
 For instance, it is straightforward to estimate the mean and variance of each 

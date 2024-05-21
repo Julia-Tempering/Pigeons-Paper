@@ -326,16 +326,8 @@ Ten different seeds are used in order to obtain approximate 95\% confidence inte
 the speedup.
 
 \medskip
-We emphasize again that Pigeons supports both shared memory 
-parallelism (SMP) and distributed memory parallelism (DMP). However, in certain cases, it 
-might be useful to run parallel tempering with very many chains or 
-to run several instances of parallel tempering at once. In such cases, 
-the DMP setup is the most natural. Our implementation in Pigeons ensures that the 
-communication cost in this setup is minimal. In most cases, the 
-communication cost is negligible compared to other computations performed on each process. 
-
-\medskip
-The weak scaling results for both the DMP and SMP settings are presented in \cref{fig:PT_scaling}. 
+The weak scaling results for both the distributed memory parallelism (DMP) and 
+shared memory parallelism (SMP) settings are presented in \cref{fig:PT_scaling}. 
 We see that we obtain an approximately linear speedup as we increase the number of processes. 
 
 \begin{figure*}[t]
@@ -359,4 +351,22 @@ We see that we obtain an approximately linear speedup as we increase the number 
     }
     \label{fig:PT_scaling}
 \end{figure*}
+
+
+\subsection{Relevance of DMP versus SMP}
+
+We emphasize again that Pigeons supports both shared memory 
+parallelism (SMP) and distributed memory parallelism (DMP). However, in certain cases, it 
+might be useful to run parallel tempering with very many chains or 
+to run several instances of parallel tempering at once. In such cases, 
+the DMP setup is the most natural if the requested number of chains is very large. 
+Another notable example of the benefit of DMP is for the multi-GPU use case. 
+For instance, in some situations the likelihood evaluation of a single chain 
+requires its own GPU (e.g., for high-resolution black hole imaging, which relies 
+on running a Fast Fourier Transform on a GPU). 
+Additionally, DMP can be useful when the user's code is not thread safe. 
+In such cases, concurrency can still be achieved via DMP.
+Our implementation in Pigeons ensures that the 
+communication cost in the DMP setup is minimal. In most cases, the 
+communication cost is negligible compared to other computations performed on each process. 
 
