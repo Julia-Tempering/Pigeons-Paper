@@ -5,7 +5,6 @@ paper.fdb_latexmk
 paper.fls
 paper.log
 paper.out
-*.pdf
 paper.synctex.gz
 /results
 pdflatex(.*)
@@ -22,3 +21,5 @@ manifest.toml
 .vscode/settings.json
 scripts/index_process.psd
 Manifest.toml
+img/bimodal_pigeons.pdf
+paper.pdf
