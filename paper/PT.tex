@@ -46,6 +46,7 @@ long period of time.
     \label{fig:bimodal}
 \end{figure}
 
+\medskip
 To resolve this issue, PT constructs a sequence of $N$ distributions,  
 $\pi_1, \pi_2, \ldots, \pi_N$, where $\pi_N$ is usually equal to $\pi$.
 The distributions are chosen so that it is easy to obtain samples from $\pi_1$
@@ -95,6 +96,7 @@ is shown in Figure~\ref{fig:path}.
     \label{fig:path}
 \end{figure}
 
+\medskip
 We now turn to explain how this path of distributions can be used to enhance 
 sampling from the target distribution, $\pi$. 
 PT operates by first obtaining samples from each distribution on the path in parallel 
@@ -360,9 +362,8 @@ might be useful to run parallel tempering with very many chains or
 to run several instances of parallel tempering at once. In such cases, 
 the DMP setup is the most natural if the requested number of chains is very large. 
 Another notable example of the benefit of DMP is for the multi-GPU use case. 
-For instance, in some situations the likelihood evaluation of a single chain 
-requires its own GPU (e.g., for high-resolution black hole imaging, which relies 
-on running a Fast Fourier Transform on a GPU). 
+For instance, in some situations the likelihood evaluation of a single chain may 
+require its own GPU (e.g., if one is running a Fast Fourier Transform on a GPU). 
 Additionally, DMP can be useful when the user's code is not thread safe. 
 In such cases, concurrency can still be achieved via DMP.
 Our implementation in Pigeons ensures that the 
