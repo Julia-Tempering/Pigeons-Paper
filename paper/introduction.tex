@@ -1,6 +1,6 @@
 \section{Introduction}
 In many scientific application domains, the ability to obtain samples from a 
-distribution is crucial. 
+probability distribution is of central interest. 
 For instance, sampling methods have been used to discover magnetic polarization 
 in the black hole of galaxy M87 \cite{akiyama2021seven}
 and to image the Sagittarius A* black hole \cite{akiyama2022first}.
@@ -19,10 +19,10 @@ simulations that can last days or even weeks to finish.
 Pigeons.jl\footnote{The source code for Pigeons.jl can be found at 
 \url{https://github.com/Julia-Tempering/Pigeons.jl}. 
 Pigeons.jl v0.2.0, used in the example scripts below, is currently compatible with Julia 1.8+.}
-enables users to sample efficiently from high-dimensional and complex distributions 
+enables users to sample efficiently from challenging probability distributions 
 and solve integration problems by 
 implementing state-of-the-art sampling algorithms \cite{syed2021nrpt,surjanovic2022vpt} 
-that leverage distributed computation. Its simple API allows users to perform such computations 
+that leverage distributed computation. Its simple user interface facilitates performing such computations 
 single-threaded, multi-threaded, and/or distributed over MPI-communicating machines. 
 We have stress-tested Pigeons successfully with up to 1000 machines running 
 concurrently on a compute cluster (Sockeye) at the University of British Columbia.
@@ -40,6 +40,9 @@ Specifically, Pigeons.jl is designed to be suitable and yield reproducible outpu
     \item several machines running, each using several threads.
 \end{enumerate}
 
+\subsection{Latest documentation}
+
+More in-depth documentation and additional examples can be found at: \\ \url{https://pigeons.run/}. 
 
 \subsection{Problem formulation}
 We describe the class of problems that can be approached using Pigeons.jl.
@@ -68,7 +71,7 @@ The output of Pigeons.jl can be used for two main tasks:
     example, in Bayesian statistics, this corresponds to the 
     marginal likelihood, which can be used for model selection. 
 \end{enumerate}
-Its implementation shines compared to traditional sampling packages in the 
+The Pigeons package particularly shines compared to traditional sampling approaches in the 
 following scenarios:
 \begin{itemize}
     \item When the target density $\pi$ is challenging due to a complex structure 
@@ -88,7 +91,7 @@ Ensuring code correctness at the intersection of randomized, parallel, and
 distributed algorithms is a challenge. To address this challenge, we designed Pigeons.jl 
 based on a principle that we refer to as \textit{strong parallelism invariance}
 (SPI).
-Namely, the output of Pigeons.jl is completely invariant to the number of machines 
+Namely, the output of Pigeons.jl is  invariant to the number of machines 
 and/or threads.
 Without explicitly keeping SPI in mind during software construction, 
 the (random) output of the algorithm is only guaranteed to have the same distribution.

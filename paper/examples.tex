@@ -2,7 +2,7 @@
 In this section we present a set of minimal examples 
 that demonstrate how to use Pigeons.jl for sampling. 
 We also direct readers to our growing list of examples at InferHub 
-(\url{https://julia-tempering.github.io/InferHub/}), which hosts a growing collection of posterior 
+(\url{https://julia-tempering.github.io/InferHub/}), which hosts a  collection of posterior 
 distributions with an emphasis on difficult (non-log-concave) problems.
 
 \medskip
@@ -32,15 +32,14 @@ introduced to Pigeons.jl in the near future.
 
 \medskip 
 In what follows, we demonstrate how to use Pigeons with a Julia Turing model 
-applied to a non-identifiable ``coinflip'' data set, modified from the example
-at \url{https://turing.ml/v0.22/docs/using-turing/quick-start}. 
+applied to a non-identifiable ``coinflip'' data set.
 The Bayesian model can be formulated as 
 \[
   \label{eq:coinflip}
-  p_1, p_2 &\stackrel{iid}{\sim} U(0, 1) \\    
-  Y \mid p_1, p_2 &\sim \text{Binomial}(n, p_1 p_2).
+  p_1, p_2 &\stackrel{\text{i.i.d.}}{\sim} U(0, 1), \\    
+  y \mid p_1, p_2 &\sim \text{Binomial}(n, p_1 p_2).
 \]
-The random variable $Y$ is the number of heads observed on $n$ coin flips
+The random variable $y$ is the number of heads observed on $n$ coin flips
 where the probability of heads is $p_1 p_2$.  
 This model is non-identifiable, meaning that it is not possible to distinguish 
 the effects of the two different parameters $p_1$ and $p_2$. As a consequence, 
@@ -134,9 +133,8 @@ For purposes of comparison, we also run a traditional
 \begin{figure*}[t]
     \centering
     \begin{lstlisting}
-          --------------------------------------------------------------------------------------
-            #scans    restarts      Λ        time(s)    allc(B)  log(Z₁/Z₀)   min(α)     mean(α)
-          ---------- ---------- ---------- ---------- ---------- ---------- ---------- --------- 
+            #scans    restarts        Λ      time(s)    allc(B)  log(Z₁/Z₀)   min(α)     mean(α)
+
                   2          0       1.04      0.383   3.48e+07  -4.24e+03          0      0.885
                   4          0       4.06    0.00287   1.79e+06      -16.3   4.63e-06      0.549
                   8          0       3.49    0.00622   3.55e+06      -12.1      0.215      0.612
@@ -147,12 +145,12 @@ For purposes of comparison, we also run a traditional
                 256         12       3.38      0.241    1.1e+08      -11.6      0.526      0.625
                 512         37       3.48      0.473   2.22e+08        -12      0.527      0.614
            1.02e+03         77       3.55      0.895   4.46e+08      -11.8      0.571      0.605
-          --------------------------------------------------------------------------------------
+
     \end{lstlisting}
     \caption{Standard output provided by Pigeons.jl. 
     Rows indicate tuning rounds of the PT algorithm with an exponentially increasing number 
     of PT iterations (\texttt{\#scans}). Columns indicate various useful diagnostics, 
-    such as the number of allocations per round, time (in seconds), and estimates 
+    such as the amount of memory allocations per round (in bytes), time (in seconds), and estimates 
     of the log of the normalization constants. 
     The output is described in greater detail in \cref{sec:PT_diagnostics}
     and has been modified to exclude columns that are not described in the paper.}
@@ -166,9 +164,7 @@ probability densities, as well as Stan and Turing models.
 Additionally, suppose we have some code implementing vanilla MCMC, written 
 in an arbitrary ``foreign'' language such as C++, Python, R, Java, etc. 
 Surprisingly, it is very simple to bridge such code with Pigeons.jl. 
-The only requirement on the foreign language is that it supports 
-reading the standard input and writing to the standard output, 
-as described in our online documentation.
+See \url{https://pigeons.run/stable/input-overview/}.
 
 
 \subsection{Outputs}
@@ -187,8 +183,7 @@ During these tuning rounds, Pigeons.jl searches for optimal values of certain PT
 tuning parameters. Other outputs include: 
 \begin{itemize}
     \item \texttt{restarts}: a higher number is better. 
-    Informally, PT performs well at sampling from high-dimensional and/or multi-modal 
-    distributions by pushing samples from an easy-to-sample distribution (the reference) 
+    Informally, PT propagates samples from an easy-to-sample distribution (the reference) 
     to the more difficult target distribution. 
     A tempered restart happens when a sample from the reference successfully 
     percolates to the target. (See the subsequent sections for a more detailed description 
@@ -285,7 +280,7 @@ display(my_plot)
 \end{lstlisting}
 The output of the above code chunk with an increased number of samples 
 is displayed in \cref{fig:coinflip_posterior}.
-\footnote{The code chunk above only works with Julia 1.9.}
+\footnote{The code chunk above requires Julia 1.9.}
 
 
 \subsubsection{Estimate of normalization constant}
