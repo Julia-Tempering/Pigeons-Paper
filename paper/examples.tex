@@ -392,7 +392,9 @@ several machines:
     in our online documentation. 
     \item Start Julia in the login node, and perform a one-time setup by 
     calling \texttt{Pigeons.setup\_mpi()}.
-    \item In the Julia REPL running in the login node, run:
+    \item In the Julia REPL running in the login node, run:\footnote{In 
+    version 0.4.0 of Pigeons, the function \text{MPI} has been renamed \text{MPIProcesses} 
+    to avoid a clash with the library \text{MPI.jl}.}
 \end{enumerate}
 \begin{lstlisting}[language = Julia]
 pigeons(
@@ -405,7 +407,7 @@ The code above will start a distributed PT algorithm with 1,000 chains on 1,000
 MPI processes each using one thread.
 Note that for the above code chunks involving \texttt{ChildProcess()} and 
 \texttt{MPI()} to work, it may be necessary to specify dependencies in their 
-function calls.
+function calls. See \url{https://pigeons.run/stable/mpi/} for details. 
 
 
 \subsection{Additional options}
