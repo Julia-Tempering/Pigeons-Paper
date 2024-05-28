@@ -276,7 +276,7 @@ with the updated permutation.
      \State $x_t \gets \texttt{local\_exploration}(\pi_\texttt{chain}, x_{t-1})$
     \State $c_t \gets \texttt{chain}$ 
     
-		  \If{$t$ is even} \Comment{choose between even or odd swap}
+		  \If{$\texttt{is\_even}(t) = \texttt{is\_even}(\texttt{chain})$} 
 		    \State $\texttt{direction} \gets +1$
 		  \Else
 		    \State $\texttt{direction} \gets -1$
