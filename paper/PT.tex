@@ -301,8 +301,8 @@ with the updated permutation.
       \Else 
       	\State $\texttt{partner} \gets \texttt{chain}$
       \EndIf
+	    \State $\texttt{my\_stat} \gets \texttt{swap\_stat}(x_t, $\texttt{chain}, $\texttt{partner} )$  
       \State $\texttt{to\_machine} \gets  \texttt{permuted\_get}(\texttt{dist\_array}, \texttt{partner})$
-      \State $\texttt{my\_stat} \gets \texttt{swap\_stat}(x_t, $\texttt{chain}, $\texttt{partner} )$  
       \State $\texttt{partner\_stat} \gets \texttt{transmit}(\texttt{my\_stat}, \texttt{to\_machine})$
       \If{$\text{swap\_accepted}(\texttt{my\_stat}, \texttt{partner\_stat})$}
         \State $\texttt{chain} \gets \texttt{partner\_chain}$
