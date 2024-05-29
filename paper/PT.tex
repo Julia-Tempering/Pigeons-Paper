@@ -107,7 +107,7 @@ the top-right mode of the distribution presented in Figure~\ref{fig:bimodal}.
 
 \subsection{Local exploration and communication}
 A central data structure in Pigeons is the \texttt{Replica}, a Julia struct 
-which we will often refer to in the remainder of this section. 
+that we will often refer to in the remainder of this section. 
 A single \texttt{Replica} stores a \texttt{state} variable and a \texttt{chain} 
 integer, among other entries. 
 At the beginning of PT, $N$ \texttt{Replicas} are created, 
@@ -146,17 +146,18 @@ incurring a potentially very high communication cost for large values of $d$.
 A distributed implementation of PT is shown in \cref{alg:distributed_PT}
 and we describe the details of the implementation below.
 For pedagogy, we first present the algorithm in the special case where the number of machines available 
-is equal to the number of \texttt{Replica}s and distributions, $N$. We outline 
-how Pigeons removes this restriction in \cref{sec:relax}.
-However, Pigeons.jl also allows for the more general case where the number of 
+is equal to the number of \texttt{Replica}s and distributions, $N$. 
+However, Pigeons also allows for the more general case where the number of 
 machines is not necessarily equal to $N$.
+We outline how Pigeons achieves this in \cref{sec:relax}.
+
 
 \subsubsection{Distributed mapping from chains to machines}
 \label{sec:permuted_dist_array}
 Recall that our theoretical $O(1)$ message size for communication between two machines 
 is achieved by exchanging \texttt{chain} indices between \texttt{Replica}s 
 instead of their \texttt{state}s. 
-However to achieve this low cost a specialized distributed data structure is 
+However, in order to achieve this low cost, a specialized distributed data structure is 
 needed to maintain a mapping from chain indices to machine identifiers. 
 To motivate it, we start with an illustrative example. 
 Suppose we have $N=4$ distributions, chains, replicas, and machines, and that 
@@ -316,11 +317,11 @@ replicas. Each machine's replicas are called the local replicas.
 The allocation of replicas to machine is fixed over the whole execution of the 
 algorithm and maintained using the \texttt{LoadBalance} struct. 
 Second, the code performing local exploration is enclosed in a 
-loop over the local replicas, and if the options ``\texttt{multithreaded = true}'' 
+loop over the local replicas, and if the option ``\texttt{multithreaded = true}'' 
 is used in the \texttt{pigeons(...)} call, the exploration loop is performed in a 
 \texttt{@threads for} loop. 
 Finally, the functions used in the communication, 
-\texttt{permuted\_get}, \texttt{permuted\_set} \texttt{transmit}, etc., 
+\texttt{permuted\_get}, \texttt{permuted\_set!}, \texttt{transmit}, etc., 
 are vectorized to accommodate that \texttt{chain} and 
 \texttt{partner} are no longer integers but rather sets of integers. 
 In particular, the permuted distributed array is designed so that each 
@@ -362,7 +363,8 @@ We see that we obtain an approximately linear speedup as we increase the number 
       \includegraphics[width=\textwidth]{../img/speedup_parallel.pdf}
     \end{minipage}
     \caption{
-        Weak scaling results for PT in both the distributed (MPI, {\bf left}) and parallel settings (Julia threads, {\bf right})  
+        Weak scaling results for PT in both the distributed (MPI, {\bf left}) 
+        and parallel (Julia threads, {\bf right}) settings 
         with approximate 95\% confidence intervals for the speedup relative to single-thread execution.   
         The blue dotted line represents a hypothetical speedup equal to the 
         number of processes/threads. 

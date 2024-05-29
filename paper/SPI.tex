@@ -71,7 +71,7 @@ To avoid the issue of non-associativity of
 floating point arithmetic, we ensure that the order in which operations are performed 
 is exactly the same, irrespective of the number of processes/machines and threads. 
 This is achieved by making sure that every value to be added---if addition is our 
-reduction operation---is a leaf node in a reduction tree which is invariant to the 
+reduction operation---is a leaf node in a reduction tree that is invariant to the 
 number of machines available to perform the computation. 
 For instance, if $N$ values are to be reduced, then the reduction tree would have 
 $N$ leaf nodes. If $M$ machines are available, these machines are then assigned 
