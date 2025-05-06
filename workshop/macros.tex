@@ -1,10 +1,10 @@
 \usepackage[accepted]{icml2025}
 \usepackage{listings}
-\usepackage{jlcode}
+\usepackage{jlcode} % MBL: added slight changes to make it look nicer with ICML style file
 \usepackage{natbib}
 
 \usepackage{enumitem}
-\setlist[1]{itemsep=-1pt,leftmargin=12pt,wide=0pt,align=left}
+\setlist[1]{itemsep=-1pt,leftmargin=12pt}
 
 \usepackage{caption}
 \captionsetup[lstlisting]{singlelinecheck=false, margin=0pt}
@@ -32,3 +32,6 @@
 \definecolor{julia8}{HTML}{c68225}
 
 \pdfsuppresswarningpagegroup=1 % avoid warning due to pdfs made with photoshop
+
+% from juliacon style
+\renewcommand{\ttdefault}{cmtt}

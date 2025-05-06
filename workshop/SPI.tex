@@ -7,7 +7,7 @@ distributed reduction schemes and splittable random number generators.
 Insights provided in this section can be applied 
 to general distributed software beyond Julia.
 
-\medskip 
+ 
 We have identified two factors that can cause violations of our previously-defined 
 SPI that standard Julia libraries 
 do not automatically take care of:
@@ -42,7 +42,7 @@ the number of times that each \texttt{Replica} visited the target chain.
 This process involves summing floating-point values that are located on each 
 of the \texttt{Replica}s/machines and is an example of a reduction scheme.
 
-\medskip 
+ 
 To illustrate why distributed reduction with floating point values can violate 
 strong parallelism invariance if not properly implemented, we consider the 
 following toy example. 
@@ -66,7 +66,7 @@ In contrast, with two machines, one possible order of operations might be
 \]
 A possible reduction tree for two machines is illustrated in \cref{fig:reduction_tree_2}.
 
-\medskip 
+ 
 To avoid the issue of non-associativity of 
 floating point arithmetic, we ensure that the order in which operations are performed 
 is exactly the same, irrespective of the number of processes/machines and threads. 
@@ -240,7 +240,7 @@ tasks and thus \texttt{nthreads()} pseudorandom number generators.
 This can break strong parallelism invariance as the output may depend on the number of 
 threads.
 
-\medskip 
+ 
 To motivate splittable random streams, consider the following toy example 
 that violates our notion of SPI:
 \begin{lstlisting}[language = Julia]
@@ -281,7 +281,7 @@ random number generation one step further and achieve SPI, which
 guarantees that the output is not only reproducible with respect to repetitions 
 for a fixed number of threads, but also for different numbers of threads or processes.
 
-\medskip 
+ 
 A first step to achieve this is to associate one random number 
 generator to each \texttt{Replica}. 
 To do so, we use our SplittableRandoms.jl package, which is a Julia implementation 

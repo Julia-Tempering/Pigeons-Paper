@@ -15,7 +15,7 @@ via Markov chain Monte Carlo (MCMC) methods.
 However, such calculations can often be bottlenecks in the scientific process, with 
 simulations that can last days or even weeks to finish. 
 
-\medskip
+
 Pigeons.jl\footnote{The source code for Pigeons.jl can be found at 
 \url{https://github.com/Julia-Tempering/Pigeons.jl}. 
 Pigeons.jl v0.2.0, used in the example scripts below, is compatible with Julia 1.8+.}
@@ -59,7 +59,7 @@ known only up to a normalizing constant,
 where $\gamma$ can be evaluated pointwise but $Z$ is typically unknown.
 Pigeons.jl takes as input the function $\gamma$.
 
-\medskip 
+ 
 The output of Pigeons.jl can be used for two main tasks:
 \begin{enumerate}
     \item Approximating integrals of the form $\int f(x) \pi(x) \, \dee x$.  
@@ -104,7 +104,7 @@ This strategy is used extensively in Pigeons.jl to ensure correctness. In contra
 testing equality in distribution, while possible (e.g., see \cite{geweke2004getting}), 
 incurs additional false negatives due to statistical error.
 
-\medskip 
+ 
 The general Julia developer will be interested in: 
 \begin{itemize}
     \item The main causes of a violation of strong parallelism invariance that we have identified 

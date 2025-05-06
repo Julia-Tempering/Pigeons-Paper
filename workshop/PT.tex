@@ -43,7 +43,7 @@ long period of time.
     \label{fig:bimodal}
 \end{figure}
 
-\medskip
+
 To resolve this issue, PT constructs a sequence of $N$ distributions,  
 $\pi_1, \pi_2, \ldots, \pi_N$, where $\pi_N$ is usually equal to $\pi$.
 The distributions are chosen so that it is easy to obtain samples from $\pi_1$
@@ -93,7 +93,7 @@ is shown in Figure~\ref{fig:path}.
     \label{fig:path}
 \end{figure}
 
-\medskip
+
 We now turn to explain how this path of distributions can be used to enhance 
 sampling from the target distribution, $\pi$. 
 PT operates by first obtaining samples from each distribution on the path in parallel 
@@ -116,7 +116,7 @@ For a given \texttt{Replica}, if the \texttt{chain} number is $i$ and the \textt
 is $x$, then this means that the sample corresponding to the $i$-th distribution in 
 the sequence $\pi_1, \ldots, \pi_N$ is currently at location $x$.  
 
-\medskip 
+ 
 In the local exploration phase,
 each \texttt{Replica}'s state is modified using an MCMC move targeting $\pi_i$,
 where $i$ is given by \texttt{Replica.chain}.
@@ -125,7 +125,7 @@ The MCMC move can either modify \texttt{Replica.state} in-place, or modify the
 This operation is indicated by the \texttt{local\_exploration} function in 
 \cref{alg:distributed_PT}.
 
-\medskip 
+ 
 In the communication phase, PT proposes swaps between pairs of replicas. 
 In principle, there are two equivalent ways to do a swap.
 In the first implementation, the \texttt{Replica}s 
@@ -166,7 +166,7 @@ At one point, the \texttt{Replica} at \texttt{chain} 2 (machine 1) might need to
 However, a priori it is not clear how machine 1 should know that it should communicate 
 with machine 4 because it has no knowledge about the chain indices on the other machines.
 
-\medskip 
+ 
 To resolve this issue, we introduce a special data structure called a 
 \texttt{PermutedDistributedArray}. In the case where the number of replicas is 
 equal to the number of available machines, the construction is quite simple
@@ -253,7 +253,7 @@ convention, namely the shared sufficient statistic's uniform from the lowest
 interacting chain index) to make a common swap decision (where the 
 acceptance ratio is the sum of the two exchanged log ratios, (2)). 
 
-\medskip 
+ 
 In \cref{alg:distributed_PT} we also introduce the functions 
 \texttt{permuted\_get()} and \texttt{permuted\_set!()}, which operate 
 on a  \texttt{PermutedDistributedArray} as described  in \cref{sec:permuted_dist_array}.
@@ -265,6 +265,7 @@ Given the current machine's \texttt{dist\_array}, \texttt{chain} number, and mac
 with the updated permutation.
 
 \begin{algorithm}[t]
+\footnotesize
 	\begin{algorithmic}[1]
     \Require Initial state $x_0$, sequence of distributions $\{\pi_i\}_{i=1}^N$, 
       number of iterations $T$, machine number $j$
@@ -346,7 +347,7 @@ gradient-based sampler with automatic step size selection in the Metropolis-adju
 Ten different seeds are used in order to obtain approximate 95\% confidence intervals of 
 the speedup.
 
-\medskip
+
 The weak scaling results for both the distributed memory parallelism (DMP) and 
 shared memory parallelism (SMP) settings are presented in \cref{fig:PT_scaling}. 
 We see that we obtain an approximately linear speedup as we increase the number of processes. 

@@ -5,7 +5,7 @@ We also direct readers to our growing list of examples at InferHub
 (\url{https://julia-tempering.github.io/InferHub/}), which hosts a  collection of posterior 
 distributions with an emphasis on difficult (non-log-concave) problems.
 
-\medskip
+
 We begin by installing the latest official release of Pigeons.jl: 
 \begin{lstlisting}[language = Julia]
 using Pkg; Pkg.add("Pigeons")
@@ -30,7 +30,7 @@ languages, including:
 Additional targets are currently being accommodated and will be 
 introduced to Pigeons.jl in the near future.
 
-\medskip 
+ 
 In what follows, we demonstrate how to use Pigeons with a Julia Turing model 
 applied to a non-identifiable ``coinflip'' data set.
 The Bayesian model can be formulated as 
@@ -74,7 +74,7 @@ Bayesian statistics.
     \label{fig:coinflip_posterior}
 \end{figure}
 
-\medskip 
+ 
 Suppose that we perform $n=100,000$ coin tosses and observe 
 $y=50,000$ heads.
 We would like to obtain samples from our posterior, $\pi$, having collected this data.
@@ -215,7 +215,7 @@ tuning parameters. Other outputs include:
 It is straightforward to obtain plots of samples from the target distribution, 
 such as trace-plots, pairwise plots, and density plots of the marginals. 
 
-\medskip 
+ 
 To obtain posterior densities and trace-plots, we first 
 make sure that we have the third-party 
 MCMCChains.jl\footnote{\url{https://github.com/TuringLang/MCMCChains.jl}}, 
@@ -264,7 +264,7 @@ panel of the same figure.
     \label{fig:trace_density_plots}
 \end{figure*}
 
-\medskip 
+ 
 To obtain pair plots, we add the 
 PairPlots.jl\footnote{\url{https://github.com/sefffal/PairPlots.jl}}
 and CairoMakie.jl\footnote{\url{https://github.com/JuliaPlots/CairoMakie.jl}}
@@ -290,7 +290,7 @@ In many applications, it is useful to approximate this constant.
 For example, in Bayesian statistics, this corresponds to the 
 marginal likelihood and can be used for model selection. 
 
-\medskip 
+ 
 As a side-product of PT, we automatically obtain an approximation to the natural 
 logarithm of the normalization constant. This is done automatically using the 
 stepping stone estimator \cite{xie2011improving}.
@@ -332,7 +332,7 @@ interest cannot be calculated online and with constant-memory
 We show here how to save samples to disk when Pigeons.jl is run on a single 
 machine. A similar interface can be used over MPI. 
 
-\medskip 
+ 
 First, we make sure that we set \texttt{checkpoint = true}, which saves a 
 snapshot at the end of each round in the directory \texttt{results/all/<unique directory>}
 and is symlinked to \texttt{results/latest}.
@@ -347,7 +347,7 @@ function \texttt{process\_sample()}.
 We describe how to produce some key parallel tempering diagnostics from 
 \cite{syed2021nrpt}.
 
-\medskip 
+ 
 The global communication barrier, denoted $\Lambda$ in Pigeons.jl output, can be 
 used to approximately inform the appropriate number of chains. 
 Based on \cite{syed2021nrpt}, stable PT performance should be achieved when  
