@@ -1,0 +1,9 @@
+\section{Conclusion}
+Pigeons.jl is a Julia package that enables users with no experience in distributed 
+computing to efficiently approximate posterior distributions and solve challenging 
+Lebesgue integration problems over a distributed computing environment.
+The core algorithm behind Pigeons.jl is distributed, non-reversible parallel tempering 
+\cite{syed2021nrpt,surjanovic2022vpt}. Pigeons.jl can be used in a multi-threaded context, 
+as well as distributed over up to thousands of MPI-communicating machines. 
+Further, Pigeons.jl is designed so that for a given seed, the output is \textit{identical}
+regardless of the number of threads or processes used.

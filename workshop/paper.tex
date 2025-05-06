@@ -1,0 +1,79 @@
+\documentclass{article}
+
+\usepackage[accepted]{icml2025}
+\usepackage{listings}
+\usepackage{jlcode}
+\usepackage{natbib}
+\setcounter{page}{1}
+
+\usepackage{expl3} % add missing functionality in the old texlive version running on the server 
+\usepackage[autonum, blackhypersetup]{shortex}
+\usepackage{xcolor}
+%\let\subcaption\undefined % overwrite 'subcaption' from the style file
+%\usepackage[font=scriptsize]{subcaption}
+\usepackage{forest}
+
+\newcommand{\NS}[1]{\textcolor{red}{#1}}
+\def\bfx{\mathbf{x}}
+\def\bfX{\mathbf{X}}
+
+\definecolor{julia1}{rgb}{0, 0.60, 0.98}
+\definecolor{julia2}{rgb}{0.89, 0.43, 0.28}
+\definecolor{julia3}{rgb}{0.24, 0.64, 0.30}
+\definecolor{julia4}{rgb}{0.76, 0.44, 0.82}
+\definecolor{julia5}{rgb}{0.67, 0.55, 0.09}
+\definecolor{julia6}{HTML}{00aaae}
+\definecolor{julia7}{HTML}{ed5e93}
+\definecolor{julia8}{HTML}{c68225}
+
+\pdfsuppresswarningpagegroup=1 % avoid warning due to pdfs made with photoshop
+
+% The \icmltitle you define below is probably too long as a header.
+% Therefore, a short form for the running title is supplied here:
+\icmltitlerunning{Pigeons.jl: Distributed sampling from intractable distributions}
+
+\begin{document}
+
+\twocolumn[
+\icmltitle{Pigeons.jl: Distributed sampling from intractable distributions}
+
+\icmlsetsymbol{equal}{*}
+
+\begin{icmlauthorlist}
+\icmlauthor{Nikola Surjanovic}{ubc}
+\icmlauthor{Miguel Biron-Lattes}{sfu}
+\icmlauthor{Paul Tiede}{harvard}
+\icmlauthor{Saifuddin Syed}{oxford}
+\icmlauthor{Alexandre Bouchard-C{\^o}t{\'e}}{ubc}
+\icmlauthor{Trevor Campbell}{ubc}
+\end{icmlauthorlist}
+
+\icmlaffiliation{harvard}{Center for Astrophysics, Harvard University, United States}
+\icmlaffiliation{oxford}{Department of Statistics, University of Oxford, United Kingdom}
+\icmlaffiliation{sfu}{Department of Statistics and Actuarial Sciences, Simon Fraser University, Canada}
+\icmlaffiliation{ubc}{Department of Statistics, University of British Columbia, Canada}
+
+\icmlcorrespondingauthor{Miguel Biron-Lattes}{mbironla@sfu.ca}
+\icmlkeywords{Distributed computation, Bayesian inference, Markov chain Monte Carlo, Parallelism Invariance, Message Passing Interface, Multi-Threading}
+
+\vskip 0.3in
+]
+
+\printAffiliationsAndNotice{}  % leave blank if no need to mention equal contribution
+
+
+\input{abstract}
+\input{introduction.tex}
+\input{examples.tex}
+\input{PT.tex}
+\input{SPI.tex}
+\input{related.tex}
+\input{conclusion.tex}
+\input{ack}
+
+\bibliographystyle{icml2025}
+\bibliography{../paper/ref.bib}
+
+\end{document}
+
+% Inspired by the International Journal of Computer Applications template
