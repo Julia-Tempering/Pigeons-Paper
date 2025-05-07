@@ -26,12 +26,11 @@ that leverage distributed computation. Its simple user interface facilitates per
 single-threaded, multi-threaded, and/or distributed over MPI-communicating machines. 
 We have stress-tested Pigeons successfully with up to 1000 machines running 
 concurrently on a compute cluster (Sockeye) at the University of British Columbia.
-Further, Pigeons comes with guarantees on strong parallelism invariance wherein 
-the output for a given seed is \emph{identical} irrespective 
-of the number of threads or processes. 
-Such a level of reproducibility is rare in distributed software but of 
-great use for the purposes of debugging in the context of sampling algorithms, 
-which produce stochastic output.
+Importantly, Pigeons comes with guarantees on \emph{strong parallelism invariance} (SPI), 
+wherein the output for a given seed is \emph{identical} irrespective of the number 
+of threads or processes. Such a level of reproducibility is rare in distributed 
+software but of great use for the purposes of debugging in the context of sampling 
+algorithms, which produce stochastic output.
 Specifically, Pigeons.jl is designed to be suitable and yield reproducible output for:
 \begin{enumerate}
     \item one machine running on one thread;
@@ -40,18 +39,13 @@ Specifically, Pigeons.jl is designed to be suitable and yield reproducible outpu
     \item several machines running, each using several threads.
 \end{enumerate}
 
-\subsection{Latest documentation}
 
-More in-depth documentation and additional examples can be found at: {\renewcommand{\UrlFont}{\ttfamily\normalsize}\url{https://pigeons.run/}}. 
-
-\subsection{Problem formulation}
-We describe the class of problems that can be approached using Pigeons.jl.
-Let $\pi(x)$ denote a probability density\footnote{This density may 
-also be a probability mass function 
+\section{Overview of Pigeons.jl}
+A typical instance of the class of problems that Pigeons.jl tackles can be described by
+a probability density\footnote{This density may also be a probability mass function 
 (discrete variables). We also allow for a combination of discrete/continuous variables.} 
-called the \emph{target}. 
-In many problems, e.g. in Bayesian statistics, the density $\pi$ is typically 
-known only up to a normalizing constant, 
+$\pi(x)$ called the \emph{target}. In many problems, e.g. in Bayesian statistics, the 
+density $\pi$ is typically known only up to a normalizing constant, 
 \[
 \label{eq:normalizing_constant}
   \pi(x) = \frac{\gamma(x)}{Z}, \qquad Z = \int \gamma(x) \, \dee x,
@@ -83,35 +77,4 @@ following scenarios:
     
     \item When the target distribution $\pi$ is defined over a non-standard space, 
     e.g. a combinatorial object such as a phylogenetic tree.  
-\end{itemize}
-
-
-\subsection{What is of interest to the general Julia developer?}
-Ensuring code correctness at the intersection of randomized, parallel, and 
-distributed algorithms is a challenge. To address this challenge, we designed Pigeons.jl 
-based on a principle that we refer to as \textit{strong parallelism invariance}
-(SPI).
-Namely, the output of Pigeons.jl is  invariant to the number of machines 
-and/or threads.
-Without explicitly keeping SPI in mind during software construction, 
-the (random) output of the algorithm is only guaranteed to have the same distribution.
-This is a much weaker guarantee that, in particular, makes debugging difficult.
-However, with our notion of SPI we make debugging and 
-software validation considerably easier. This is because the developer can 
-first focus on the fully serial randomized algorithm, and then use it as an 
-easy-to-compare gold-standard reference for parallel/distributed implementations. 
-This strategy is used extensively in Pigeons.jl to ensure correctness. In contrast, 
-testing equality in distribution, while possible (e.g., see \cite{geweke2004getting}), 
-incurs additional false negatives due to statistical error.
-
- 
-The general Julia developer will be interested in: 
-\begin{itemize}
-    \item The main causes of a violation of strong parallelism invariance that we have identified 
-    (\cref{sec:PI_causes})---some of which are specific to Julia---and how we address 
-    them in Pigeons.jl.
-
-    \item The SplittableRandoms.jl\footnote{\url{https://github.com/Julia-Tempering/SplittableRandoms.jl}}
-    package that was developed by our team 
-    to achieve strong parallelism invariance in Pigeons.jl (\cref{sec:splittable_randoms}).
 \end{itemize}

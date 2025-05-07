@@ -78,8 +78,8 @@ $N$ leaf nodes. If $M$ machines are available, these machines are then assigned
 in such a way that the order of operations is as if there were $N$ machines available. 
 To do so, it may be necessary for a machine to ``communicate with itself'', 
 imitating the behaviour that would be present if there were $N$ machines available.
-\cref{fig:reduction_tree_colour_8} and \cref{fig:reduction_tree_colour_2} 
-illustrate the reduction procedure for eight and two machines, respectively.
+\cref{fig:reduction_tree_colour} illustrates the reduction procedure for eight and 
+two machines.
 
 \begin{figure}[t]
   \centering
@@ -153,8 +153,9 @@ illustrate the reduction procedure for eight and two machines, respectively.
   \label{fig:reduction_tree_2}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure*}[t]
   \centering
+  \begin{minipage}{0.5\linewidth}
   \begin{forest}
     for tree = {circle, draw, minimum size = 0.8cm}
       [{$36x$}, fill = julia1
@@ -180,15 +181,8 @@ illustrate the reduction procedure for eight and two machines, respectively.
         ]
       ]
   \end{forest}
-  \caption{Addition of eight floating point numbers across eight machines with a 
-  guarantee on SPI. Each machine is represented by a different colour. 
-  The final result can be represented 
-  by the expression $((1x + 2x) + (3x + 4x)) + ((5x + 6x) + (7x + 8x))$.}
-  \label{fig:reduction_tree_colour_8}
-\end{figure}
-
-\begin{figure}[t]
-  \centering
+  \end{minipage}%
+  \begin{minipage}{0.5\linewidth}
   \begin{forest}
     for tree = {circle, draw, minimum size = 0.8cm}
       [{$36x$}, fill = julia1
@@ -214,13 +208,13 @@ illustrate the reduction procedure for eight and two machines, respectively.
         ]
       ]
   \end{forest}
-  \caption{Addition of eight floating point numbers across two machines with a 
-  guarantee on SPI. Each machine is represented by a different colour. 
-  The final result can be represented 
-  by the expression $((1x + 2x) + (3x + 4x)) + ((5x + 6x) + (7x + 8x))$,
-  which is the same as that given by eight machines in \cref{fig:reduction_tree_colour_8}.}
-  \label{fig:reduction_tree_colour_2}
-\end{figure}
+  \end{minipage}
+  \caption{Addition of eight floating point numbers across eight (\textbf{left}) 
+  and two (\textbf{right}) machines with a guarantee on SPI. Each machine is 
+  represented by a different colour. In both cases, the final result can be 
+  represented by the same expression $((1x + 2x) + (3x + 4x)) + ((5x + 6x) + (7x + 8x))$.}
+  \label{fig:reduction_tree_colour}
+\end{figure*}
 
 
 \subsection{Splittable random streams}

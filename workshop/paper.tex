@@ -4,12 +4,13 @@
 
 % The \icmltitle you define below is probably too long as a header.
 % Therefore, a short form for the running title is supplied here:
-\icmltitlerunning{Pigeons.jl: Distributed sampling from intractable distributions}
+\newcommand{\thetitle}{Reproducible sampling from intractable distributions with Pigeons.jl}
+\icmltitlerunning{\thetitle}
 
 \begin{document}
 
 \twocolumn[
-\icmltitle{Pigeons.jl: Distributed sampling from intractable distributions}
+\icmltitle{\thetitle}
 
 \icmlsetsymbol{equal}{*}
 
@@ -38,15 +39,26 @@
 
 \input{abstract}
 \input{introduction.tex}
-\input{examples.tex}
-\input{PT.tex}
 \input{SPI.tex}
 \input{related.tex}
-\input{conclusion.tex}
-\input{ack}
+%\input{conclusion.tex}
+%\input{ack}
 
 \bibliographystyle{icml2025}
 \bibliography{../paper/ref.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APPENDIX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\appendix
+\onecolumn
+
+\input{examples}
+\input{PT}
+
 
 \end{document}
 
