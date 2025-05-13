@@ -12,9 +12,9 @@ algorithm for selecting samples from the prior that are close to the posterior.
 When the prior is far from the posterior, this process can take a long time to
 produce a sample of acceptable quality.
 
-But this is where Pigeons can help: within a Parallel Tempering (PT) run, PG can be
-used to explore each distribution in an annealing sequence that interpolates between
-the prior and posterior. We expect PG to work more effectively on tempered 
+But this is where Pigeons can help: within a PT run, PG can be
+used to explore each distribution in the annealing path. We expect PG to work 
+more effectively on tempered 
 distributions closer to the prior. Such samples can then be transported towards 
 the posterior chain via the PT process.
 In order to construct this sequence of distributions for an arbitrary program in
