@@ -42,7 +42,7 @@
 
 
 Pigeons.jl provides an implementation of distributed parallel tempering (PT) described 
-in \cite{syed2021nrpt}, which we outline in Algorithm~\ref{alg:distributed_PT}.
+in \cite{syed2021nrpt}, which we outline in \cref{alg:distributed_PT}.
 This section gives both a brief overview of PT and some details of 
 its distributed implementation.
 
@@ -66,7 +66,7 @@ MCMC methods, the samples may be heavily correlated instead of independent
 and may fail to sufficiently explore the 
 full space of the distribution (see \cref{fig:bimodal}); 
 PT is a method that aims to address these issues.
-For a more in-depth review of PT, we refer readers to \cite{surjanovic2022vpt}.
+For a more in-depth review of PT, we refer readers to \citet{surjanovic2022vpt}.
 
 
 \subsection{Overview of PT}
@@ -81,7 +81,7 @@ $\pi$ can be challenging for traditional MCMC methods---such
 as Metropolis-Hastings, slice sampling, and Hamiltonian Monte Carlo---
 because of its structure.
 For example, in a bimodal example such as the one illustrated in 
-Figure~\ref{fig:bimodal},
+\cref{fig:bimodal},
 traditional methods might remain in one of the two modes for an extremely 
 long period of time.
 
@@ -92,7 +92,7 @@ $\pi_1, \pi_2, \ldots, \pi_N$, where $\pi_N$ is usually equal to $\pi$.
 The distributions are chosen so that it is easy to obtain samples from $\pi_1$
 with the sampling difficulty increasing as one approches $\pi_N$. An example 
 of such a sequence of distributions, referred to as an \textit{annealing path},
-is shown in Figure~\ref{fig:path}.
+is shown in \cref{fig:path}.
 
 
 
@@ -103,7 +103,7 @@ PT operates by first obtaining samples from each distribution on the path in par
 Then, samples between adjacent distributions are swapped (referred to as 
 a \textit{communication phase}). The communication phase in PT is crucial: it allows 
 for the discovery of new regions of the space of the target distribution such as 
-the top-right mode of the distribution presented in Figure~\ref{fig:bimodal}. 
+the top-right mode of the distribution presented in \cref{fig:bimodal}. 
 
 
 
@@ -181,7 +181,7 @@ incurring a potentially very high communication cost for large values of $d$.
     from a unimodal reference distribution  
     $\pi_1$, from which it is straightforward to obtain samples, and ending at 
     $\pi_N$, which is in this case the bimodal distribution from 
-    Figure~\ref{fig:bimodal}. (Note that in this case the colours between the heatmaps 
+    \cref{fig:bimodal}. (Note that in this case the colours between the heatmaps 
     are not directly comparable because the densities of intermediate distributions 
     are not normalized.)}
     \label{fig:path}

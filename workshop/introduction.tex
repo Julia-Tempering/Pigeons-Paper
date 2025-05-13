@@ -16,13 +16,15 @@ However, such calculations can often be bottlenecks in the scientific process, w
 simulations that can last days or even weeks to finish. 
 
 
-Pigeons.jl\footnote{The source code for Pigeons.jl can be found at 
-\url{https://github.com/Julia-Tempering/Pigeons.jl}. 
-Pigeons.jl v0.2.0, used in the example scripts below, is compatible with Julia 1.8+.}
-enables users to sample efficiently from challenging probability distributions 
-and solve integration problems by 
-implementing state-of-the-art sampling algorithms \cite{syed2021nrpt,surjanovic2022vpt} 
-that leverage distributed computation. Its simple user interface facilitates performing such computations 
+Pigeons.jl\footnote{\url{https://github.com/Julia-Tempering/Pigeons.jl}}
+enables users to sample efficiently from challenging probability distributions.
+To achieve this, Pigeons.jl provides a multi-threaded and distributed implementation
+of non-reversible parallel tempering
+(PT; \citealp{syed2021nrpt,syed2021paths,surjanovic2022vpt,surjanovic2024ergodicity}), 
+a state-of-the-art MCMC algorithm (see \cref{sec:PT} for an outline of the method).
+Crucially, Pigeons.jl follows the tuning guidelines described in \citet{syed2021nrpt} 
+to provide a hyperparameter-free implementation.
+Pigeons.jl's simple user interface facilitates running PT
 single-threaded, multi-threaded, and/or distributed over MPI-communicating machines. 
 We have stress-tested Pigeons successfully with up to 1000 processes running 
 concurrently on a compute cluster (Sockeye) at the University of British Columbia.
@@ -42,8 +44,9 @@ Specifically, Pigeons.jl is designed to be suitable and yield reproducible outpu
 
 \section{Overview of Pigeons.jl}
 A typical instance of the class of problems that Pigeons.jl tackles can be described by
-a probability density\footnote{This density may also be a probability mass function 
-(discrete variables). We also allow for a combination of discrete/continuous variables.} 
+a probability density (or mass) function
+%\footnote{This density may also be a probability mass function 
+%(discrete variables). We also allow for a combination of discrete/continuous variables.} 
 $\pi(x)$ called the \emph{target}. In many problems, e.g. in Bayesian statistics, the 
 density $\pi$ is typically known only up to a normalizing constant, 
 \[

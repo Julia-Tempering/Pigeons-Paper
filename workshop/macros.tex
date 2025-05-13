@@ -4,18 +4,14 @@
 \usepackage{natbib}
 
 \usepackage{enumitem}
-\setlist[1]{itemsep=-1pt,leftmargin=12pt}
-
-\usepackage{caption}
+\setlist[1]{leftmargin=12pt,topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex}
+\usepackage[font=small,belowskip=-5pt]{caption}
 \captionsetup[lstlisting]{singlelinecheck=false, margin=0pt}
-\renewcommand\lstlistingname{Code}
 
 \usepackage[hang,flushmargin]{footmisc}
 
 \usepackage[autonum, blackhypersetup]{shortex}
 \usepackage{xcolor}
-%\let\subcaption\undefined % overwrite 'subcaption' from the style file
-%\usepackage[font=scriptsize]{subcaption}
 \usepackage{forest}
 
 \newcommand{\NS}[1]{\textcolor{red}{#1}}
