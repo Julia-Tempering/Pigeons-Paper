@@ -1,0 +1,25 @@
+\section{Towards tempered Particle Gibbs for Turing-complete PPLs}
+
+Particle Gibbs (PG, \citealp{andrieu2010particle}) is an MCMC
+algorithm that has been shown \citep{wood2014new} to be a natural sampler for
+arbitrary programs written in Turing-complete probabilistic programming 
+languages (PPLs). For example, the Julia package Turing.jl \citep{ge2018turing}
+provides a PG sampler that can handle any program written in DynamicPPL
+\citep{tarek2020dynamicppl}, its underlying PPL.
+However, this generality comes at the expense of poor performance in moderately
+complex models. This is due to the fact that PG is, essentially, a smart 
+algorithm for selecting samples from the prior that are close to the posterior.
+When the prior is far from the posterior, this process can take a long time to
+produce a sample of acceptable quality.
+
+But this is where Pigeons can help: within a Parallel Tempering (PT) run, PG can be
+used to explore each distribution in an annealing sequence that interpolates between
+the prior and posterior. We expect PG to work more effectively on tempered 
+distributions closer to the prior. Such samples can then be transported towards 
+the posterior chain via the PT process.
+In order to construct this sequence of distributions for an arbitrary program in
+a Turing-complete PPL, it suffices to inject an inverse temperature parameter 
+$\beta\in[0,1]$ in the call to compute the log density of every \texttt{observe} 
+statement in the program. Leveraging multiple dispatch in Julia, we have
+successfully applied this technique to DynamicPPL programs in our package
+TPGExplorers.jl\footnote{\url{https://github.com/Julia-Tempering/TPGExplorers.jl}}.

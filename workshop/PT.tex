@@ -1,9 +1,61 @@
 \section{Parallel tempering}
 \label{sec:PT}
+
+\begin{algorithm}[t]
+	\begin{algorithmic}[1]
+    \Require Initial state $x_0$, sequence of distributions $\{\pi_i\}_{i=1}^N$, 
+      number of iterations $T$, machine number $j$
+    \State $\texttt{chain} \gets j$ \Comment{current \texttt{chain} number}
+    \State $\texttt{dist\_array}[j] \gets j$ \Comment{\texttt{chain} $j$ is on machine $j$}
+		
+    \For{$t$ {\bf in} 1, 2, \dots, $T$}
+    
+     \State $x_t \gets \texttt{local\_exploration}(\pi_\texttt{chain}, x_{t-1})$
+    \State $c_t \gets \texttt{chain}$ 
+    
+		  \If{$\texttt{is\_even}(t) = \texttt{is\_even}(\texttt{chain})$} 
+		    \State $\texttt{direction} \gets +1$
+		  \Else
+		    \State $\texttt{direction} \gets -1$
+		  \EndIf
+		  \State $\texttt{partner} \gets \texttt{chain} + \texttt{direction}$
+
+     
+      \If{$\texttt{partner} = 0$} 
+        \State $\texttt{partner} \gets 1$ \Comment{Encode boundaries as self-interaction}
+      \ElsIf{$\texttt{partner} = N + 1$}
+        \State $\texttt{partner} \gets N$
+      \EndIf
+	    \State $\texttt{my\_stat} \gets \texttt{swap\_stat}(x_t, $\texttt{chain}, $\texttt{partner} )$  
+      \State $\texttt{to\_machine} \gets  \texttt{permuted\_get}(\texttt{dist\_array}, \texttt{partner})$
+      \State $\texttt{partner\_stat} \gets \texttt{transmit}(\texttt{my\_stat}, \texttt{to\_machine})$
+      \If{$\text{swap\_accepted}(\texttt{my\_stat}, \texttt{partner\_stat})$}
+        \State $\texttt{chain} \gets \texttt{partner\_chain}$
+      \EndIf
+      \State $\texttt{permuted\_set!}(\texttt{dist\_array}, \texttt{chain}, j)$ 
+		\EndFor
+    \State \Return $\{(x_t, c_t)\}_{t=1}^T$
+	\end{algorithmic}
+  \caption{Distributed PT on machine $j$ (one replica per machine)}
+  \label{alg:distributed_PT}
+\end{algorithm}
+
+
 Pigeons.jl provides an implementation of distributed parallel tempering (PT) described 
 in \cite{syed2021nrpt}, which we outline in Algorithm~\ref{alg:distributed_PT}.
 This section gives both a brief overview of PT and some details of 
 its distributed implementation.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.25\textwidth]{../img/bimodal.pdf}
+    \caption{A simple bimodal distribution from which traditional 
+    MCMC methods may struggle to obtain samples. Blue lines display output 
+    from 1,000 iterations of a Metropolis-Hastings random walk MCMC algorithm.
+    The sampler in this figure is visibly trapped in one of the two modes.}
+    \label{fig:bimodal}
+\end{figure}
+
 
 In this section we assume a basic understanding of 
 Markov chain Monte Carlo (MCMC) methods.
@@ -33,15 +85,6 @@ Figure~\ref{fig:bimodal},
 traditional methods might remain in one of the two modes for an extremely 
 long period of time.
 
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=0.3\textwidth]{../img/bimodal.pdf}
-    \caption{A simple bimodal distribution from which traditional 
-    MCMC methods may struggle to obtain samples. Blue lines display output 
-    from 1,000 iterations of a Metropolis-Hastings random walk MCMC algorithm.
-    The sampler in this figure is visibly trapped in one of the two modes.}
-    \label{fig:bimodal}
-\end{figure}
 
 
 To resolve this issue, PT constructs a sequence of $N$ distributions,  
@@ -51,7 +94,58 @@ with the sampling difficulty increasing as one approches $\pi_N$. An example
 of such a sequence of distributions, referred to as an \textit{annealing path},
 is shown in Figure~\ref{fig:path}.
 
-\begin{figure*}[t]
+
+
+We now turn to explain how this path of distributions can be used to enhance 
+sampling from the target distribution, $\pi$. 
+PT operates by first obtaining samples from each distribution on the path in parallel 
+(referred to as an \textit{exploration phase}). 
+Then, samples between adjacent distributions are swapped (referred to as 
+a \textit{communication phase}). The communication phase in PT is crucial: it allows 
+for the discovery of new regions of the space of the target distribution such as 
+the top-right mode of the distribution presented in Figure~\ref{fig:bimodal}. 
+
+
+
+
+\subsection{Local exploration and communication}
+A central data structure in Pigeons is the \texttt{Replica}, a Julia struct 
+that we will often refer to in the remainder of this section. 
+A single \texttt{Replica} stores a \texttt{state} variable and a \texttt{chain} 
+integer, among other entries. 
+At the beginning of PT, $N$ \texttt{Replicas} are created, 
+one for each distribution on the annealing path, and 
+the chain entries in the $N$ replicas are initialized at $1,2,\ldots,N$, respectively. 
+For a given \texttt{Replica}, if the \texttt{chain} number is $i$ and the \texttt{state}
+is $x$, then this means that the sample corresponding to the $i$-th distribution in 
+the sequence $\pi_1, \ldots, \pi_N$ is currently at location $x$.  
+
+ 
+In the local exploration phase,
+each \texttt{Replica}'s state is modified using an MCMC move targeting $\pi_i$,
+where $i$ is given by \texttt{Replica.chain}.
+The MCMC move can either modify \texttt{Replica.state} in-place, or modify the 
+\texttt{Replica}'s \texttt{state} field. 
+This operation is indicated by the \texttt{local\_exploration} function in 
+\cref{alg:distributed_PT}.
+
+ 
+In the communication phase, PT proposes swaps between pairs of replicas. 
+In principle, there are two equivalent ways to do a swap.
+In the first implementation, the \texttt{Replica}s 
+could exchange their \texttt{state} fields.
+Alternatively, they could exchange their \texttt{chain} fields.
+Because we provide distributed implementations, we use the latter as it ensures that 
+the amount of data that needs to be exchanged between two machines during a swap 
+can be made very small (two floating point numbers), resuling in 
+an exchange of $O(N)$ messages of size $O(1)$. 
+Note that this cost does not vary with the dimensionality of the state space, 
+in contrast to the first implementation that would transmit 
+$O(N)$ messages of size $O(d)$, where $d$ is the dimension of the state space,
+incurring a potentially very high communication cost for large values of $d$.
+
+% NB: this is placed here just to make it appear in a different page
+\begin{figure}[t]
     \centering
     \begin{minipage}{0.15\textwidth}
       \centering
@@ -91,54 +185,8 @@ is shown in Figure~\ref{fig:path}.
     are not directly comparable because the densities of intermediate distributions 
     are not normalized.)}
     \label{fig:path}
-\end{figure*}
+\end{figure}
 
-
-We now turn to explain how this path of distributions can be used to enhance 
-sampling from the target distribution, $\pi$. 
-PT operates by first obtaining samples from each distribution on the path in parallel 
-(referred to as an \textit{exploration phase}). 
-Then, samples between adjacent distributions are swapped (referred to as 
-a \textit{communication phase}). The communication phase in PT is crucial: it allows 
-for the discovery of new regions of the space of the target distribution such as 
-the top-right mode of the distribution presented in Figure~\ref{fig:bimodal}. 
-
-
-\subsection{Local exploration and communication}
-A central data structure in Pigeons is the \texttt{Replica}, a Julia struct 
-that we will often refer to in the remainder of this section. 
-A single \texttt{Replica} stores a \texttt{state} variable and a \texttt{chain} 
-integer, among other entries. 
-At the beginning of PT, $N$ \texttt{Replicas} are created, 
-one for each distribution on the annealing path, and 
-the chain entries in the $N$ replicas are initialized at $1,2,\ldots,N$, respectively. 
-For a given \texttt{Replica}, if the \texttt{chain} number is $i$ and the \texttt{state}
-is $x$, then this means that the sample corresponding to the $i$-th distribution in 
-the sequence $\pi_1, \ldots, \pi_N$ is currently at location $x$.  
-
- 
-In the local exploration phase,
-each \texttt{Replica}'s state is modified using an MCMC move targeting $\pi_i$,
-where $i$ is given by \texttt{Replica.chain}.
-The MCMC move can either modify \texttt{Replica.state} in-place, or modify the 
-\texttt{Replica}'s \texttt{state} field. 
-This operation is indicated by the \texttt{local\_exploration} function in 
-\cref{alg:distributed_PT}.
-
- 
-In the communication phase, PT proposes swaps between pairs of replicas. 
-In principle, there are two equivalent ways to do a swap.
-In the first implementation, the \texttt{Replica}s 
-could exchange their \texttt{state} fields.
-Alternatively, they could exchange their \texttt{chain} fields.
-Because we provide distributed implementations, we use the latter as it ensures that 
-the amount of data that needs to be exchanged between two machines during a swap 
-can be made very small (two floating point numbers), resuling in 
-an exchange of $O(N)$ messages of size $O(1)$. 
-Note that this cost does not vary with the dimensionality of the state space, 
-in contrast to the first implementation that would transmit 
-$O(N)$ messages of size $O(d)$, where $d$ is the dimension of the state space,
-incurring a potentially very high communication cost for large values of $d$.
 
 
 \subsection{Distributed implementation}
@@ -264,45 +312,6 @@ Given the current machine's \texttt{dist\_array}, \texttt{chain} number, and mac
 \texttt{permuted\_set!()} updates the \texttt{PermutedDistributedArray} variables 
 with the updated permutation.
 
-\begin{algorithm}[t]
-\footnotesize
-	\begin{algorithmic}[1]
-    \Require Initial state $x_0$, sequence of distributions $\{\pi_i\}_{i=1}^N$, 
-      number of iterations $T$, machine number $j$
-    \State $\texttt{chain} \gets j$ \Comment{current \texttt{chain} number}
-    \State $\texttt{dist\_array}[j] \gets j$ \Comment{\texttt{chain} $j$ is on machine $j$}
-		
-    \For{$t$ {\bf in} 1, 2, \dots, $T$}
-    
-     \State $x_t \gets \texttt{local\_exploration}(\pi_\texttt{chain}, x_{t-1})$
-    \State $c_t \gets \texttt{chain}$ 
-    
-		  \If{$\texttt{is\_even}(t) = \texttt{is\_even}(\texttt{chain})$} 
-		    \State $\texttt{direction} \gets +1$
-		  \Else
-		    \State $\texttt{direction} \gets -1$
-		  \EndIf
-		  \State $\texttt{partner} \gets \texttt{chain} + \texttt{direction}$
-
-     
-      \If{$\texttt{partner} = 0$} 
-        \State $\texttt{partner} \gets 1$ \Comment{Encode boundaries as self-interaction}
-      \ElsIf{$\texttt{partner} = N + 1$}
-        \State $\texttt{partner} \gets N$
-      \EndIf
-	    \State $\texttt{my\_stat} \gets \texttt{swap\_stat}(x_t, $\texttt{chain}, $\texttt{partner} )$  
-      \State $\texttt{to\_machine} \gets  \texttt{permuted\_get}(\texttt{dist\_array}, \texttt{partner})$
-      \State $\texttt{partner\_stat} \gets \texttt{transmit}(\texttt{my\_stat}, \texttt{to\_machine})$
-      \If{$\text{swap\_accepted}(\texttt{my\_stat}, \texttt{partner\_stat})$}
-        \State $\texttt{chain} \gets \texttt{partner\_chain}$
-      \EndIf
-      \State $\texttt{permuted\_set!}(\texttt{dist\_array}, \texttt{chain}, j)$ 
-		\EndFor
-    \State \Return $\{(x_t, c_t)\}_{t=1}^T$
-	\end{algorithmic}
-  \caption{Distributed PT on machine $j$ (one replica per machine)}
-  \label{alg:distributed_PT}
-\end{algorithm}
 
 \subsubsection{Load balancing}
 \label{sec:relax}
@@ -354,14 +363,9 @@ We see that we obtain an approximately linear speedup as we increase the number 
 
 \begin{figure*}[t]
     \centering
-    \begin{minipage}{0.4\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{../img/speedup_distributed.pdf}
-    \end{minipage}
-    \begin{minipage}{0.4\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{../img/speedup_parallel.pdf}
-    \end{minipage}
+    \includegraphics[width=0.33\textwidth]{../img/speedup_distributed.pdf}
+    \hspace{4em}
+    \includegraphics[width=0.33\textwidth]{../img/speedup_parallel.pdf}
     \caption{
         Weak scaling results for PT in both the distributed (MPI, {\bf left}) 
         and parallel (Julia threads, {\bf right}) settings 
