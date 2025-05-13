@@ -1,0 +1,44 @@
+\section{Recent developments}
+
+\paragraph{autoMALA}
+Since version v0.2.0, Pigeons.jl's default explorer for most models in continuous
+space has been autoMALA \citep{biron2024automala}, a novel MCMC sampler
+based on the Metropolis-adjusted Langevin algorithm (MALA). autoMALA continually
+adapts its step size at each iteration based on the local geometry of the target
+distribution. Such automatic adjustments are highly desirable in the local exploration 
+phase of PT (see \cref{sec:PT} for a review of PT), since otherwise we would 
+need to find optimal step sizes for each distribution in the annealing path---a 
+prohibitively costly process.
+
+\vspace{-1em}
+
+\paragraph{Support for BUGS models}
+The latest version of Pigeons.jl at the time of writing (v0.4.9) added support 
+for sampling from programs written in BUGS \cite{lunn2000winbugs,lunn2009bugs,
+lunn2013bugs}, by leveraging the Julia implementation of the 
+language in JuliaBUGS.jl\footnote{\url{https://turinglang.org/JuliaBUGS.jl/stable/}}.
+
+\vspace{-1em}
+
+\paragraph{Tempered Particle Gibbs for Turing-complete PPLs}
+Particle Gibbs (PG, \citealp{andrieu2010particle}) is an MCMC
+algorithm that has been shown \citep{wood2014new} to be a natural sampler for
+arbitrary programs written in Turing-complete probabilistic programming 
+languages (PPLs). For example, the Julia package Turing.jl \citep{ge2018turing}
+provides a PG sampler that can handle any program written in DynamicPPL
+\citep{tarek2020dynamicppl}, its underlying PPL.
+However, this generality comes at the expense of poor performance in moderately
+complex models. The reason is that PG is, essentially, a smart 
+way for selecting samples from the prior that are close to the posterior.
+When these distributions are very different, PG can be inefficient.
+
+With Pigeons.jl we can partially alleviate this issue by using PG as an explorer
+in PT. Indeed, PG should be efficient for exploring distributions closer to the 
+prior. Such samples can then be transported towards the posterior chain via the PT process.
+In order to construct the annealing sequence of distributions for an arbitrary 
+PPL program, it suffices to inject an inverse temperature parameter 
+$\beta\in[0,1]$ in the call to compute the log density of every \texttt{observe} 
+statement \citep[see][for an explanation of this syntax]{gordon2014probabilistic} 
+in the program. Leveraging multiple dispatch in Julia, we have
+successfully applied this technique to DynamicPPL programs in our package
+TPGExplorers.jl\footnote{\url{https://github.com/Julia-Tempering/TPGExplorers.jl}}.
