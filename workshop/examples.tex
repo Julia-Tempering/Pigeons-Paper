@@ -99,7 +99,7 @@ From here, it is straightforward to sample from the density given by
 We use non-reversible parallel tempering 
 \cite{syed2021nrpt,syed2021paths,surjanovic2022vpt,surjanovic2024ergodicity} (PT), Pigeons.jl's 
 state-of-the-art sampling algorithm, to sample from the target distribution.
-PT comes with several tuning parameters and \cite{syed2021nrpt} describe how 
+PT comes with several tuning parameters and \citet{syed2021nrpt} describe how 
 to select these parameters effectively, which Pigeons.jl implements under the hood.
 We also specify that we would like to store 
 the obtained samples in memory to be able to produce trace-plots, as well 
@@ -191,10 +191,10 @@ tuning parameters. Other outputs include:
     When the reference supports i.i.d.~sampling, tempered restarts 
     can enable large jumps in the state space. 
 
-    \item \texttt{$\Lambda$}: the global communication barrier, as described in \cite{syed2021nrpt}, 
+    \item \texttt{$\Lambda$}: the global communication barrier, as described in \citet{syed2021nrpt}, 
     which measures the inherent difficulty of the sampling problem.
     A rule of thumb to configure the number of PT chains is also 
-    given by \cite{syed2021nrpt}, where they suggest that stable performance 
+    given by \citet{syed2021nrpt}, where they suggest that stable performance 
     should be achieved when the number of chains is set to roughly 2$\Lambda$.
     See \cref{sec:PT_diagnostics} for more information.
 
@@ -319,7 +319,9 @@ Other constant-memory statistic accumulators are made available in the
 OnlineStats.jl \cite{day2020onlinestats} package. 
 To add additional constant-memory statistic accumulators, we 
 can register them via \texttt{Pigeons.register\_online\_type()}, as described in our 
-online documentation. For instance, we can also compute constant-memory estimates 
+online documentation. 
+\NS{We should link to the online documentation here and also earlier.}
+For instance, we can also compute constant-memory estimates 
 of extrema of our distribution.
 
 
@@ -345,12 +347,12 @@ function \texttt{process\_sample()}.
 \subsubsection{PT diagnostics}
 \label{sec:PT_diagnostics}
 We describe how to produce some key parallel tempering diagnostics from 
-\cite{syed2021nrpt}.
+\citet{syed2021nrpt}.
 
  
 The global communication barrier, denoted $\Lambda$ in Pigeons.jl output, can be 
 used to approximately inform the appropriate number of chains. 
-Based on \cite{syed2021nrpt}, stable PT performance should be achieved when  
+Based on \citet{syed2021nrpt}, stable PT performance should be achieved when  
 the number of chains is set to roughly $2\Lambda$. This can be achieved by 
 modifying the \texttt{n\_chains} argument in the call to \texttt{pigeons()}. 
 The global communication barrier is shown at each round and can also be accessed 
@@ -434,7 +436,7 @@ In the above code chunk we also specify that we would like to use a
 Gaussian variational reference distribution.
 That is, the reference distribution is chosen from a multivariate Gaussian family 
 that lies as close as possible to the target distribution in order to improve 
-the efficiency of PT. We refer readers to \cite{surjanovic2022vpt} for more details.
+the efficiency of PT. We refer readers to \citet{surjanovic2022vpt} for more details.
 When only continuous parameters are of interest, we encourage users to consider 
 using \texttt{variational = GaussianReference()} and setting \texttt{n\_chains\_variational = 10}, 
 for example, as the number of restarts may substantially increase with these settings.

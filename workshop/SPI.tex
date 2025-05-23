@@ -30,7 +30,10 @@ solves the two above issues.
 
 
 \subsection{Distributed reduction and floating point non-associativity}
-After each round of PT, the machines need to exchange information such as the 
+After each round of PT, 
+\NS{I think we should assume that the readers don't know much about PT, so maybe 
+this part should be simplified}
+the machines need to exchange information such as the 
 average swap acceptance probabilities, statistics to adapt a variational 
 reference and adjust annealing parameters, and so on. 
 For instance, suppose our \texttt{state} is univariate and real-valued and 
