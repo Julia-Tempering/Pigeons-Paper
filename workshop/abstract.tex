@@ -1,14 +1,15 @@
 \begin{abstract}
-\NS{Feel free to place yourself as first author, Miguel.}
 Sampling from complicated probability distributions---such as 
 multimodal posteriors arising in Bayesian inference and high-dimensional 
-distributions in statistical mechanics---is a challenging problem. Pigeons.jl provides 
-a simple user interface to perform such computations single-threaded, multi-threaded,
-and/or distributed over thousands of MPI-communicating machines. In this paper,
-we discuss a feature of Pigeons.jl that we call \emph{strong parallelism invariance} (SPI): 
-a guarantee that the output for a given seed is identical irrespective of the number 
-of threads and processes. This feature is crucial for scientific reproducibility and 
-software validation. We describe the key features of Pigeons.jl that enable a 
-distributed and randomized algorithm satisfying SPI. Finally, we briefly discuss 
+distributions in statistical mechanics---is a challenging problem. \emph{Pigeons.jl} 
+is a Julia package that implements \emph{Parallel Tempering}, a technique that 
+leverages parallelism to improve the effectiveness of \emph{Markov chain Monte Carlo} 
+algorithms. Pigeons.jl provides a simple user interface to perform such computations 
+using single-threaded, multi-threaded, and/or distributed over thousands of MPI-communicating 
+machines. In this paper, we discuss a feature of Pigeons.jl that we call \emph{strong 
+parallelism invariance} (SPI): a guarantee that the output for a given seed is identical 
+irrespective of the number of threads and processes. This feature is crucial for scientific 
+reproducibility and software validation. We describe the key features of Pigeons.jl that 
+enable a distributed and randomized algorithm satisfying SPI. Finally, we briefly discuss 
 some recent developments in Pigeons.jl.
 \end{abstract}

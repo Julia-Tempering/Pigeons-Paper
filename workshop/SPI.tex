@@ -1,8 +1,7 @@
 \section{Strong parallelism invariance}
 \label{sec:PI_causes}
-In this section we describe potential violations of 
-strong parallelism invariance (SPI) that can occur in a distributed setting. 
-We also explain how we avoid these issues by using special 
+In this section we describe potential violations of SPI that can occur in a 
+distributed setting. We also explain how we avoid these issues by using special 
 distributed reduction schemes and splittable random number generators. 
 Insights provided in this section can be applied 
 to general distributed software beyond Julia.
@@ -30,20 +29,16 @@ solves the two above issues.
 
 
 \subsection{Distributed reduction and floating point non-associativity}
-After each round of PT, 
-\NS{I think we should assume that the readers don't know much about PT, so maybe 
-this part should be simplified}
-the machines need to exchange information such as the 
-average swap acceptance probabilities, statistics to adapt a variational 
-reference and adjust annealing parameters, and so on. 
-For instance, suppose our \texttt{state} is univariate and real-valued and 
-that each \texttt{Replica} keeps track of the number of times the target chain $N$ 
-is visited as well as the mean of the univariate \texttt{state}s from the target chain.
-To obtain the final estimate of the mean of the target distribution, we would like 
-to pool the mean estimates from each of the \texttt{Replica}s, weighted by 
-the number of times that each \texttt{Replica} visited the target chain.   
-This process involves summing floating-point values that are located on each 
-of the \texttt{Replica}s/machines and is an example of a reduction scheme.
+The execution of PT in Pigeons.jl is divided into \emph{rounds}, which are
+sequences of \emph{scans}---a single call to \cref{alg:distributed_PT}---of 
+exponentially increasing length. At the end of each round,
+\emph{replicas}---the fundamental unit of parallelization in PT (see \cref{sec:PT} for 
+details)---need to exchange information. This can be related to the output of the 
+program---e.g., the value of the normalization constant $Z$---as well as statistics 
+needed to adapt the sampler so that the next round runs more efficiently.
+Almost all of these cases involve summing floating-point numbers that are 
+located on different threads, processes, or compute nodes (in the following we use 
+the generic term \emph{machine}).
 
 \begin{figure}[t]
   \centering
@@ -139,7 +134,7 @@ In contrast, with two machines, one possible order of operations might be
   (((1x + 2x) + 3x) + 4x) + (((5x + 6x) + 7x) + 8x) \\
   \approx 978.5814582452563.
 \]
-A possible reduction tree for two machines is illustrated in \cref{fig:reduction_tree_2}.
+\cref{fig:reduction_tree_2} shows a possible reduction tree for two machines.
 
  
 
@@ -286,7 +281,7 @@ for a fixed number of threads, but also for different numbers of threads or proc
 
  
 A first step to achieve this is to associate one random number 
-generator to each \texttt{Replica}. 
+generator to each replica. 
 To do so, we use our SplittableRandoms.jl package, which is a Julia implementation 
 of Java SplittableRandoms. Our package offers an implementation of  
 SplitMix64 \cite{steele2014fast},

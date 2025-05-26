@@ -16,10 +16,11 @@ However, such calculations can often be bottlenecks in the scientific process, w
 simulations that can last days or even weeks to finish. 
 
 
-Pigeons.jl\footnote{\url{https://github.com/Julia-Tempering/Pigeons.jl}}
+Pigeons.jl\footnote{Documentation available at \url{https://pigeons.run/dev/}. 
+Public repository: \url{https://github.com/Julia-Tempering/Pigeons.jl}.}
 enables users to sample efficiently from challenging probability distributions.
 To achieve this, Pigeons.jl provides a multi-threaded and distributed implementation
-of non-reversible parallel tempering
+of non-reversible \emph{parallel tempering}
 (PT; \citealp{syed2021nrpt,syed2021paths,surjanovic2022vpt,surjanovic2024ergodicity}), 
 a state-of-the-art MCMC algorithm (see \cref{sec:PT} for an outline of the method).
 Crucially, Pigeons.jl follows the tuning guidelines described in \citet{syed2021nrpt} 
