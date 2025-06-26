@@ -1,10 +1,12 @@
-\section{Strong parallelism invariance}
-\label{sec:PI_causes}
-In this section we describe potential violations of SPI that can occur in a 
-distributed setting. We also explain how we avoid these issues by using special 
-distributed reduction schemes and splittable random number generators. 
-Insights provided in this section can be applied 
-to general distributed software beyond Julia.
+\section{Strong parallelism invariance}\label{sec:PI_causes}
+
+In this section we describe potential violations of \emph{strong 
+parallelism invariance} (SPI)---which we define as a guarantee that the output 
+for a given seed is identical irrespective of the number of threads and 
+processes---that can occur in a distributed setting. We also explain how we 
+avoid these issues by using special distributed reduction schemes and 
+splittable random number generators. Insights provided in this section 
+can be applied to general distributed software beyond Julia.
 
  
 We have identified two factors that can cause violations of our previously-defined 
@@ -30,10 +32,9 @@ solves the two above issues.
 
 \subsection{Distributed reduction and floating point non-associativity}
 The execution of PT in Pigeons.jl is divided into \emph{rounds}, which are
-sequences of \emph{scans}---a single call to \cref{alg:distributed_PT}---of 
-exponentially increasing length. At the end of each round,
-\emph{replicas}---the fundamental unit of parallelization in PT (see \cref{sec:PT} for 
-details)---need to exchange information. This can be related to the output of the 
+sequences of \emph{scans}---an exploration phase followed by a communication phase---%
+of exponentially increasing length. At the end of each round,
+\emph{replicas}---the fundamental unit of parallelization in PT---need to exchange information. This can be related to the output of the 
 program---e.g., the value of the normalization constant $Z$---as well as statistics 
 needed to adapt the sampler so that the next round runs more efficiently.
 Almost all of these cases involve summing floating-point numbers that are 

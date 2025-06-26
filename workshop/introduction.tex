@@ -15,6 +15,19 @@ via Markov chain Monte Carlo (MCMC) methods.
 However, such calculations can often be bottlenecks in the scientific process, with 
 simulations that can last days or even weeks to finish. 
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.7\linewidth]{../img/speedup_distributed.pdf}
+%    \hspace{4em}
+%    \includegraphics[width=0.33\textwidth]{../img/speedup_parallel.pdf}
+    \caption{
+        Speedup relative to single-thread execution for Pigeons.jl in the distributed 
+        (MPI) setting. Error bars denote approximate 95\% confidence intervals.
+        The blue dotted line represents a hypothetical speedup equal to the 
+        number of processes. The red dashed line indicates a speedup of one for reference.
+    }
+    \label{fig:PT_scaling}
+\end{figure}
 
 Pigeons.jl\footnote{Documentation available at \url{https://pigeons.run/dev/}. 
 Public repository: \url{https://github.com/Julia-Tempering/Pigeons.jl}.}
@@ -22,7 +35,7 @@ enables users to sample efficiently from challenging probability distributions.
 To achieve this, Pigeons.jl provides a multi-threaded and distributed implementation
 of non-reversible \emph{parallel tempering}
 (PT; \citealp{syed2021nrpt,syed2021paths,surjanovic2022vpt,surjanovic2024ergodicity}), 
-a state-of-the-art MCMC algorithm (see \cref{sec:PT} for an outline of the method).
+a state-of-the-art MCMC algorithm.
 Crucially, Pigeons.jl follows the tuning guidelines described in \citet{syed2021nrpt} 
 to provide a hyperparameter-free implementation.
 Pigeons.jl's simple user interface facilitates running PT
@@ -43,42 +56,6 @@ Specifically, Pigeons.jl is designed to be suitable and yield reproducible outpu
 \end{enumerate}
 
 
-\section{Overview of Pigeons.jl}
-A typical instance of the class of problems that Pigeons.jl tackles can be described by
-a probability density (or mass) function
-%\footnote{This density may also be a probability mass function 
-%(discrete variables). We also allow for a combination of discrete/continuous variables.} 
-$\pi(x)$ called the \emph{target}. In many problems, e.g. in Bayesian statistics, the 
-density $\pi$ is typically known only up to a normalizing constant, 
-\[
-\label{eq:normalizing_constant}
-  \pi(x) = \frac{\gamma(x)}{Z}, \qquad Z = \int \gamma(x) \, \dee x,
-\]  
-where $\gamma$ can be evaluated pointwise but $Z$ is typically unknown.
-Pigeons.jl takes as input the function $\gamma$.
 
- 
-The output of Pigeons.jl can be used for two main tasks:
-\begin{enumerate}
-    \item Approximating integrals of the form $\int f(x) \pi(x) \, \dee x$.  
-    For example, the choice $f(x) = x$ computes the mean and 
-    $f(x) = I[x \in A]$ computes the probability of $A$ under $\pi$,
-    where $I[\cdot]$ denotes the indicator function.
 
-    \item Approximating the value of the normalization constant $Z$. For 
-    example, in Bayesian statistics, this corresponds to the 
-    marginal likelihood, which can be used for model selection. 
-\end{enumerate}
-The Pigeons package particularly shines compared to traditional sampling approaches in the 
-following scenarios:
-\begin{itemize}
-    \item When the target density $\pi$ is challenging due to a complex structure 
-    (e.g., high-dimensional, multi-modal, etc.).
-    
-    \item When the user needs not only $\int f(x) \pi(x) \, \dee x$ but also
-    the normalizing constant $Z$. 
-    Many existing tools focus on the former and struggle or fail to do the latter. 
-    
-    \item When the target distribution $\pi$ is defined over a non-standard space, 
-    e.g. a combinatorial object such as a phylogenetic tree.  
-\end{itemize}
+

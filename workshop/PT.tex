@@ -46,15 +46,15 @@ in \citet{syed2021nrpt}, which we outline in \cref{alg:distributed_PT}.
 This section gives both a brief overview of PT and some details of 
 its distributed implementation.
 
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=0.25\textwidth]{../img/bimodal.pdf}
-    \caption{A simple bimodal distribution from which traditional 
-    MCMC methods may struggle to obtain samples. Blue lines display output 
-    from 1,000 iterations of a Metropolis-Hastings random walk MCMC algorithm.
-    The sampler in this figure is visibly trapped in one of the two modes.}
-    \label{fig:bimodal}
-\end{figure}
+%\begin{figure}[t]
+%    \centering
+%    \includegraphics[width=0.25\textwidth]{../img/bimodal.pdf}
+%    \caption{A simple bimodal distribution from which traditional 
+%    MCMC methods may struggle to obtain samples. Blue lines display output 
+%    from 1,000 iterations of a Metropolis-Hastings random walk MCMC algorithm.
+%    The sampler in this figure is visibly trapped in one of the two modes.}
+%    \label{fig:bimodal}
+%\end{figure}
 
 
 In this section we assume a basic understanding of 
@@ -144,48 +144,48 @@ in contrast to the first implementation that would transmit
 $O(N)$ messages of size $O(d)$, where $d$ is the dimension of the state space,
 incurring a potentially very high communication cost for large values of $d$.
 
-% NB: this is placed here just to make it appear in a different page
-\begin{figure}[t]
-    \centering
-    \begin{minipage}{0.15\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{../img/heatmap_path_1.pdf}
-      \caption*{$\pi_1$}
-    \end{minipage}
-    \begin{minipage}{0.15\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{../img/heatmap_path_2.pdf}
-      \caption*{$\pi_2$}
-    \end{minipage}
-    \begin{minipage}{0.15\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{../img/heatmap_path_3.pdf}
-      \caption*{$\pi_3$}
-    \end{minipage}
-    \begin{minipage}{0.15\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{../img/heatmap_path_4.pdf}
-      \caption*{$\pi_4$}
-    \end{minipage}
-    \begin{minipage}{0.15\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{../img/heatmap_path_5.pdf}
-      \caption*{$\pi_5$}
-    \end{minipage}
-    \begin{minipage}{0.15\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{../img/heatmap_path_6.pdf}
-      \caption*{$\pi_6$}
-    \end{minipage}
-    \caption{Heatmaps of six distributions lying on an annealing path 
-    from a unimodal reference distribution  
-    $\pi_1$, from which it is straightforward to obtain samples, and ending at 
-    $\pi_N$, which is in this case the bimodal distribution from 
-    \cref{fig:bimodal}. (Note that in this case the colours between the heatmaps 
-    are not directly comparable because the densities of intermediate distributions 
-    are not normalized.)}
-    \label{fig:path}
-\end{figure}
+%% NB: this is placed here just to make it appear in a different page
+%\begin{figure}[t]
+%    \centering
+%    \begin{minipage}{0.15\textwidth}
+%      \centering
+%      \includegraphics[width=\textwidth]{../img/heatmap_path_1.pdf}
+%      \caption*{$\pi_1$}
+%    \end{minipage}
+%    \begin{minipage}{0.15\textwidth}
+%      \centering
+%      \includegraphics[width=\textwidth]{../img/heatmap_path_2.pdf}
+%      \caption*{$\pi_2$}
+%    \end{minipage}
+%    \begin{minipage}{0.15\textwidth}
+%      \centering
+%      \includegraphics[width=\textwidth]{../img/heatmap_path_3.pdf}
+%      \caption*{$\pi_3$}
+%    \end{minipage}
+%    \begin{minipage}{0.15\textwidth}
+%      \centering
+%      \includegraphics[width=\textwidth]{../img/heatmap_path_4.pdf}
+%      \caption*{$\pi_4$}
+%    \end{minipage}
+%    \begin{minipage}{0.15\textwidth}
+%      \centering
+%      \includegraphics[width=\textwidth]{../img/heatmap_path_5.pdf}
+%      \caption*{$\pi_5$}
+%    \end{minipage}
+%    \begin{minipage}{0.15\textwidth}
+%      \centering
+%      \includegraphics[width=\textwidth]{../img/heatmap_path_6.pdf}
+%      \caption*{$\pi_6$}
+%    \end{minipage}
+%    \caption{Heatmaps of six distributions lying on an annealing path 
+%    from a unimodal reference distribution  
+%    $\pi_1$, from which it is straightforward to obtain samples, and ending at 
+%    $\pi_N$, which is in this case the bimodal distribution from 
+%    \cref{fig:bimodal}. (Note that in this case the colours between the heatmaps 
+%    are not directly comparable because the densities of intermediate distributions 
+%    are not normalized.)}
+%    \label{fig:path}
+%\end{figure}
 
 
 
@@ -361,21 +361,21 @@ The weak scaling results for both the distributed memory parallelism (DMP) and
 shared memory parallelism (SMP) settings are presented in \cref{fig:PT_scaling}. 
 We see that we obtain an approximately linear speedup as we increase the number of processes. 
 
-\begin{figure*}[t]
-    \centering
-    \includegraphics[width=0.33\textwidth]{../img/speedup_distributed.pdf}
-    \hspace{4em}
-    \includegraphics[width=0.33\textwidth]{../img/speedup_parallel.pdf}
-    \caption{
-        Weak scaling results for PT in both the distributed (MPI, {\bf left}) 
-        and parallel (Julia threads, {\bf right}) settings 
-        with approximate 95\% confidence intervals for the speedup relative to single-thread execution.   
-        The blue dotted line represents a hypothetical speedup equal to the 
-        number of processes/threads. 
-        The red dashed line indicates a speedup of one for reference.
-    }
-    \label{fig:PT_scaling}
-\end{figure*}
+%\begin{figure*}[t]
+%    \centering
+%    \includegraphics[width=0.33\textwidth]{../img/speedup_distributed.pdf}
+%    \hspace{4em}
+%    \includegraphics[width=0.33\textwidth]{../img/speedup_parallel.pdf}
+%    \caption{
+%        Weak scaling results for PT in both the distributed (MPI, {\bf left}) 
+%        and parallel (Julia threads, {\bf right}) settings 
+%        with approximate 95\% confidence intervals for the speedup relative to single-thread execution.   
+%        The blue dotted line represents a hypothetical speedup equal to the 
+%        number of processes/threads. 
+%        The red dashed line indicates a speedup of one for reference.
+%    }
+%    \label{fig:PT_scaling}
+%\end{figure*}
 
 
 \subsection{Relevance of DMP versus SMP}

@@ -1,0 +1,39 @@
+\section{Overview of Pigeons.jl}\label{sec:overview}
+
+Pigeons.jl exploits the fact that the exploration phase in PT is embarrassingly parallel
+to provide a multithreaded and distributed Julia implementation of the algorithm.
+
+In many problems, e.g. in Bayesian 
+statistics, the target $\pi$ is typically known only up to a normalizing constant, 
+\[
+\label{eq:normalizing_constant}
+  \pi(x) = \frac{\gamma(x)}{Z}, \qquad Z = \int \gamma(x) \, \dee x,
+\]  
+where $\gamma$ can be evaluated pointwise but $Z$ is typically unknown.
+Pigeons.jl takes as input the function $\gamma$.
+
+
+The output of Pigeons.jl can be used for two main tasks:
+\begin{enumerate}
+    \item Approximating integrals of the form $\int f(x) \pi(x) \, \dee x$.  
+    For example, the choice $f(x) = x$ computes the mean and 
+    $f(x) = I[x \in A]$ computes the probability of $A$ under $\pi$,
+    where $I[\cdot]$ denotes the indicator function.
+
+    \item Approximating the value of the normalization constant $Z$. For 
+    example, in Bayesian statistics, this corresponds to the 
+    marginal likelihood, which can be used for model selection. 
+\end{enumerate}
+The Pigeons package particularly shines compared to traditional sampling approaches in the 
+following scenarios:
+\begin{itemize}
+    \item When the target density $\pi$ is challenging due to a complex structure 
+    (e.g., high-dimensional, multi-modal, etc.).
+    
+    \item When the user needs not only $\int f(x) \pi(x) \, \dee x$ but also
+    the normalizing constant $Z$. 
+    Many existing tools focus on the former and struggle or fail to do the latter. 
+    
+    \item When the target distribution $\pi$ is defined over a non-standard space, 
+    e.g. a combinatorial object such as a phylogenetic tree.  
+\end{itemize}

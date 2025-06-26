@@ -1,12 +1,14 @@
 \section{Recent developments}
 
+
+
 \paragraph{autoMALA}
 Since version v0.2.0, Pigeons.jl's default explorer for most models in continuous
 space has been autoMALA \citep{biron2024automala}, a novel MCMC sampler
 based on the Metropolis-adjusted Langevin algorithm (MALA). autoMALA continually
 adapts its step size at each iteration based on the local geometry of the target
-distribution. Such automatic adjustments are highly desirable in the local exploration 
-phase of PT (see \cref{sec:PT} for a review of PT), since otherwise we would 
+distribution. Such automatic adjustments are highly desirable in the exploration 
+phase, since otherwise we would 
 need to find optimal step sizes for each distribution in the annealing path---a 
 prohibitively costly process.
 
