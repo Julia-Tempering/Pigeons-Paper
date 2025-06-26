@@ -34,7 +34,7 @@ solves the two above issues.
 The execution of PT in Pigeons.jl is divided into \emph{rounds}, which are
 sequences of \emph{scans}---an exploration phase followed by a communication phase---%
 of exponentially increasing length. At the end of each round,
-\emph{replicas}---the fundamental unit of parallelization in PT---need to exchange information. This can be related to the output of the 
+replicas need to exchange information. This can be related to the output of the 
 program---e.g., the value of the normalization constant $Z$---as well as statistics 
 needed to adapt the sampler so that the next round runs more efficiently.
 Almost all of these cases involve summing floating-point numbers that are 

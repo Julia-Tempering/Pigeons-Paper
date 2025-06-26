@@ -37,3 +37,15 @@ following scenarios:
     \item When the target distribution $\pi$ is defined over a non-standard space, 
     e.g. a combinatorial object such as a phylogenetic tree.  
 \end{itemize}
+
+There are two fundamental concepts in the implementation that we will use
+in the following sections. For a distribution $\pi_i$ in the path, we call its
+index the $i$-th \emph{chain}. During execution, we assign \emph{replicas} to 
+work on the distributions associated to the chains. The map between chains and
+replicas is one-to-one, and thus can be seen as a permutation of the 
+set $\{1,\dots,N\}$. Replicas are the fundamental unit of parallelization in PT:
+they may be distributed across threads, processes, and machines. 
+
+In \cref{app:examples} we provide examples of how to use Pigeons.jl. For more details
+on the implementation, see \citet{surjanovic2025pigeons}.
+
