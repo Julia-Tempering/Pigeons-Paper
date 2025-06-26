@@ -115,32 +115,6 @@ the generic term \emph{machine}).
   \label{fig:reduction_tree_2}
 \end{figure}
 
-
-To illustrate why distributed reduction with floating point values can violate 
-strong parallelism invariance if not properly implemented, we consider the 
-following toy example. 
-Suppose we have 8 machines storing the floating point numbers $\cbra{1x, 2x, \ldots, 8x}$, 
-as illustrated in \cref{fig:reduction_tree_8}, where we use $x = 10 e^1 \approx 27.1828$
-in the following examples.
-In this case, if our reduction procedure is to sum the floating point numbers, 
-we know that our final answer should be approximately $36x$. 
-However, depending on the exact order in which floating point addition is carried out, 
-the answers might not all be the same and exactly equal to $36x$.
-For instance, in \cref{fig:reduction_tree_8} we see that the order of operations 
-for eight machines would be given by 
-\[
-  ((1x + 2x) + (3x + 4x)) + ((5x + 6x) + (7x + 8x)) \\
-  \approx 978.5814582452562.
-\]
-In contrast, with two machines, one possible order of operations might be 
-\[
-  (((1x + 2x) + 3x) + 4x) + (((5x + 6x) + 7x) + 8x) \\
-  \approx 978.5814582452563.
-\]
-\cref{fig:reduction_tree_2} shows a possible reduction tree for two machines.
-
- 
-
 \begin{figure*}[t]
   \footnotesize
   \centering
@@ -204,6 +178,33 @@ In contrast, with two machines, one possible order of operations might be
   represented by the same expression $((1x + 2x) + (3x + 4x)) + ((5x + 6x) + (7x + 8x))$.}
   \label{fig:reduction_tree_colour}
 \end{figure*}
+
+To illustrate why distributed reduction with floating point values can violate 
+strong parallelism invariance if not properly implemented, we consider the 
+following toy example. 
+Suppose we have 8 machines storing the floating point numbers $\cbra{1x, 2x, \ldots, 8x}$, 
+as illustrated in \cref{fig:reduction_tree_8}, where we use $x = 10 e^1 \approx 27.1828$
+in the following examples.
+In this case, if our reduction procedure is to sum the floating point numbers, 
+we know that our final answer should be approximately $36x$. 
+However, depending on the exact order in which floating point addition is carried out, 
+the answers might not all be the same and exactly equal to $36x$.
+For instance, in \cref{fig:reduction_tree_8} we see that the order of operations 
+for eight machines would be given by 
+\[
+  ((1x + 2x) + (3x + 4x)) + ((5x + 6x) + (7x + 8x)) \\
+  \approx 978.5814582452562.
+\]
+In contrast, with two machines, one possible order of operations might be 
+\[
+  (((1x + 2x) + 3x) + 4x) + (((5x + 6x) + 7x) + 8x) \\
+  \approx 978.5814582452563.
+\]
+\cref{fig:reduction_tree_2} shows a possible reduction tree for two machines.
+
+ 
+
+
 
 
 To avoid the issue of non-associativity of 
