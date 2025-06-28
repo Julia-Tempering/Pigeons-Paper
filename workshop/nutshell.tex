@@ -1,10 +1,10 @@
-\section{Parallel Tempering in a nutshell}
+\section{Parallel tempering in a nutshell}
 
 \begin{figure}[t]
   \centering
     \includegraphics[width=0.5\linewidth]{../img/bimodal.pdf}
     \caption{A bimodal distribution. Blue lines display output 
-    from 1,000 iterations of a random walk Metropolis-Hastings sampler.}
+    from 1,000 iterations of a random walk Metropolis--Hastings sampler.}
     \label{fig:bimodal}
 \end{figure}
 
@@ -12,7 +12,7 @@ Consider the problem of sampling from a probability density (or mass) function
 $\pi(x)$, henceforth called the \emph{target}. Solving this task is often 
 challenging, as the 
 distribution $\pi$ can exhibit features which traditional MCMC methods---from
-random walk Metropolis-Hastings to Hamiltonian Monte Carlo---struggle to
+random walk Metropolis--Hastings to Hamiltonian Monte Carlo---struggle to
 describe accurately. For example, in bimodal distributions such as the one 
 illustrated in \cref{fig:bimodal}, traditional methods might remain stuck in one 
 of the two modes for an extremely long period of time.
@@ -50,7 +50,7 @@ of the two modes for an extremely long period of time.
 %      \caption*{$\pi_6$}
     \end{minipage}
     \caption{Heatmaps of six distributions lying on an annealing path, 
-    starting from a unimodal reference (top-left), and ending at a target
+    starting from a unimodal reference (top-left), and ending at the target
     distribution from \cref{fig:bimodal}.}
     \label{fig:path}
 \end{figure}
